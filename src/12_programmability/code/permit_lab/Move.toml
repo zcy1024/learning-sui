@@ -1,0 +1,6 @@
+[package]
+name = "permit_lab"
+edition = "2024"
+
+[addresses]
+permit_lab = "0x0"
