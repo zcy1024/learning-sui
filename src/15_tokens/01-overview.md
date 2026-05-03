@@ -6,7 +6,7 @@
 - **`Balance`、`Coin`、`TreasuryCap`、`Currency`、`Token`** 各自解决哪一类问题，边界在哪里？  
 - **开放环路（Coin）** 与 **闭环（Token）** 的分工是什么，为什么官方要提供两套？
 
-若你尚未熟悉 **`Balance` 与 `Coin` 的底层定义**，请先阅读 [第十二章 §12.11 · Balance 与 Coin](../12_programmability/11-balance-and-coin.md)，本章在此基础上讨论**发币、注册、合规与策略**。
+若你尚未熟悉 **`Balance` 与 `Coin` 的底层定义**，请先阅读 [第十三章 §13.11 · Balance 与 Coin](../13_programmability/11-balance-and-coin.md)，本章在此基础上讨论**发币、注册、合规与策略**。
 
 ---
 

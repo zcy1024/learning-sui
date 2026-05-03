@@ -2,10 +2,10 @@
 
 ## 导读
 
-本节对应 [§12.1](01-sui-framework.md) 中的 **`sui::derived_object`**：在父对象与键上推导**确定性**子对象地址，适合注册表、命名空间与「可预测 ID」。与 [§12.7](07-dynamic-fields.md) / [§12.8](08-dynamic-object-fields.md) 的「运行时挂载」互补——这里强调**地址可事先算出**。
+本节对应 [§13.1](01-sui-framework.md) 中的 **`sui::derived_object`**：在父对象与键上推导**确定性**子对象地址，适合注册表、命名空间与「可预测 ID」。与 [§13.7](07-dynamic-fields.md) / [§13.8](08-dynamic-object-fields.md) 的「运行时挂载」互补——这里强调**地址可事先算出**。
 
-- **前置**：[§12.7](07-dynamic-fields.md)、[§12.8](08-dynamic-object-fields.md)、[§12.1](01-sui-framework.md)  
-- **后续**：与 [§12.10](10-dynamic-collections.md) 中的表结构可组合使用（按业务选型）  
+- **前置**：[§13.7](07-dynamic-fields.md)、[§13.8](08-dynamic-object-fields.md)、[§13.1](01-sui-framework.md)  
+- **后续**：与 [§13.10](10-dynamic-collections.md) 中的表结构可组合使用（按业务选型）  
 
 ---
 

@@ -2,10 +2,10 @@
 
 ## 导读
 
-本节对应 [§12.1](01-sui-framework.md) 中的 **`sui::dynamic_field`**：在 **`UID`** 上按运行时键挂载额外数据，**突破编译期固定字段**。它是 [§12.8](08-dynamic-object-fields.md)、[§12.10](10-dynamic-collections.md) 的**底层机制**——`Table`/`Bag` 等都在此之上封装。
+本节对应 [§13.1](01-sui-framework.md) 中的 **`sui::dynamic_field`**：在 **`UID`** 上按运行时键挂载额外数据，**突破编译期固定字段**。它是 [§13.8](08-dynamic-object-fields.md)、[§13.10](10-dynamic-collections.md) 的**底层机制**——`Table`/`Bag` 等都在此之上封装。
 
-- **前置**：[§12.1](01-sui-framework.md)、[第九章 · UID](../09_using_objects/03-uid-and-id.md)  
-- **后续**：[§12.8](08-dynamic-object-fields.md)、[§12.10](10-dynamic-collections.md)  
+- **前置**：[§13.1](01-sui-framework.md)、[第九章 · UID](../09_using_objects/03-uid-and-id.md)  
+- **后续**：[§13.8](08-dynamic-object-fields.md)、[§13.10](10-dynamic-collections.md)  
 
 ---
 

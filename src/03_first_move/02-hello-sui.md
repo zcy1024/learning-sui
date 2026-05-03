@@ -236,4 +236,4 @@ export PACKAGE_ID=0x<your-package-id>
 
 ## 小结
 
-本节我们完成了一个 TodoList 合约的编写和链上发布。关键步骤包括：使用 `sui client publish` 发布包、理解交易输出中的 Digest、Effects、Created Objects 等信息。发布后我们获得了两个重要对象——**Package**（包含合约代码）与 **UpgradeCap**（升级能力）。本节的 `todo_list` 未使用模块 **`init`**；若你想了解「首次发布时自动跑一次」的初始化机制，可读 [第四章 · 包 — 首次发布与 init](../04_concepts/01-packages.md#pkg-init)，系统讲解见 [第十二章 §12.3](../12_programmability/03-module-initializer.md)。记录好 PackageID，下一节我们将学习如何通过 CLI 与已发布的合约进行交互。
+本节我们完成了一个 TodoList 合约的编写和链上发布。关键步骤包括：使用 `sui client publish` 发布包、理解交易输出中的 Digest、Effects、Created Objects 等信息。发布后我们获得了两个重要对象——**Package**（包含合约代码）与 **UpgradeCap**（升级能力）。本节的 `todo_list` 未使用模块 **`init`**；若你想了解「首次发布时自动跑一次」的初始化机制，可读 [第四章 · 包 — 首次发布与 init](../04_concepts/01-packages.md#pkg-init)，系统讲解见 [第十三章 §13.3](../13_programmability/03-module-initializer.md)。记录好 PackageID，下一节我们将学习如何通过 CLI 与已发布的合约进行交互。

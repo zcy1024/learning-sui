@@ -9,4 +9,4 @@ cd security_lab
 sui move build
 ```
 
-亦可结合 **第五章** 各节包、`../../13_patterns/code/patterns_lab/` 做交叉审查。
+亦可结合 **第五章** 各节包、`../../12_patterns/code/patterns_lab/` 做交叉审查。

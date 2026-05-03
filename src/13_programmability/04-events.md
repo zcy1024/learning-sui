@@ -2,9 +2,9 @@
 
 ## 导读
 
-本节对应 [§12.1](01-sui-framework.md) 中的 **`sui::event`**：`emit` 把结构化数据挂到**交易效果**上，供索引器与前端消费；**不**占用对象动态字段。事件类型须 **`copy + drop`**，且须在**本模块**定义（内部约束见链接）。
+本节对应 [§13.1](01-sui-framework.md) 中的 **`sui::event`**：`emit` 把结构化数据挂到**交易效果**上，供索引器与前端消费；**不**占用对象动态字段。事件类型须 **`copy + drop`**，且须在**本模块**定义（内部约束见链接）。
 
-- **前置**：[§12.1](01-sui-framework.md)、[§12.2](02-transaction-context.md)（常用 `ctx.sender()` 填入事件）  
+- **前置**：[§13.1](01-sui-framework.md)、[§13.2](02-transaction-context.md)（常用 `ctx.sender()` 填入事件）  
 - **后续**：[第十章 §10.5 · 内部约束](../10_using_objects/05-internal-constraint.md)（为何不能 `emit` 外模块类型）  
 
 ---
@@ -367,4 +367,4 @@ public fun finalize(proposal: &mut Proposal, ctx: &TxContext) {
 
 事件是 Sui Move 合约与链下世界沟通的标准机制。事件类型必须具有 `copy` 和 `drop` 能力，且只能在定义它的模块中通过 `sui::event::emit()` 发出。事件数据不存储在链上状态中，但由全节点记录，可通过 JSON-RPC API 查询和订阅。设计事件时应遵循以下原则：为每种操作定义专门的事件类型、包含足够的上下文信息、使用清晰的命名。良好的事件设计能极大简化链下应用的开发，是构建完整 DApp 体验不可或缺的一环。
 
-在 [§12.1](01-sui-framework.md) 的框架地图中，把 **`event`** 与 **`object` / `transfer`** 区分开：**事件不是对象字段**，也不替代链上状态。
+在 [§13.1](01-sui-framework.md) 的框架地图中，把 **`event`** 与 **`object` / `transfer`** 区分开：**事件不是对象字段**，也不替代链上状态。

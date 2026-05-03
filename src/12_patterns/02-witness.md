@@ -4,6 +4,8 @@ Witness（见证者）模式是 Move 中一种强大的授权机制。其核心�
 
 本章将详细介绍 Witness 模式的原理、实现方式以及在 Sui 框架中的实际应用。
 
+**与标准库的对照**：[`std::internal::Permit<T>`](../13_programmability/15-internal-permit.md) 由 **Move 标准库**提供，只有定义 `T` 的模块能调用 `internal::permit<T>()`；`Permit<T>` 为零大小且 **`has drop`**，适合把「类型级授权」从业务 witness 里抽出来，而不必让调用方真的构造一个 `T` 的实例。
+
 ## 什么是 Witness
 
 在 Move 中，**结构体只能在定义它的模块内被构造**。这条规则是 Witness 模式的基础。如果一个函数要求传入类型 `T` 的实例作为参数，那么只有定义 `T` 的模块才能调用该函数——因为只有该模块能创建 `T` 的实例。

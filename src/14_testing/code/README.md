@@ -1,4 +1,4 @@
-# 第十二章 · 示例代码（测试）
+# 第十四章 · 示例代码（测试）
 
 ## `testing_lab/`
 
@@ -13,6 +13,6 @@ sui move test
 
 - **`../../09_object_model/code/object_lab/`** — `test_scenario` + 共享对象
 - **`../../10_using_objects/code/using_lab/`** — 转账路径断言
-- **`../../13_patterns/code/patterns_lab/`** — `init` 与对象领取
+- **`../../12_patterns/code/patterns_lab/`** — `init` 与对象领取
 
 本章正文中的 Builder / 覆盖率等内容建议在独立仓库中按项目规模扩展。

@@ -2,9 +2,9 @@
 
 ## 导读
 
-本节对应 [§12.1](01-sui-framework.md) **集合选型表**中基于**动态（对象）字段**的类型：`Table`、`Bag`、`ObjectTable`、`ObjectBag`、`LinkedTable`、`TableVec` 等。数据**不**再挤在宿主对象的 `vector` 里，而是按条目分散存储，适合**大规模**与复杂键值语义。请与 [§12.6](06-collections.md) 的 `VecMap`/`VecSet` 对照阅读。
+本节对应 [§13.1](01-sui-framework.md) **集合选型表**中基于**动态（对象）字段**的类型：`Table`、`Bag`、`ObjectTable`、`ObjectBag`、`LinkedTable`、`TableVec` 等。数据**不**再挤在宿主对象的 `vector` 里，而是按条目分散存储，适合**大规模**与复杂键值语义。请与 [§13.6](06-collections.md) 的 `VecMap`/`VecSet` 对照阅读。
 
-- **前置**：[§12.7](07-dynamic-fields.md)、[§12.8](08-dynamic-object-fields.md)、[§12.1](01-sui-framework.md)  
+- **前置**：[§13.7](07-dynamic-fields.md)、[§13.8](08-dynamic-object-fields.md)、[§13.1](01-sui-framework.md)  
 - **后续**：[第十五章 · 代币](../15_tokens/00-index.md)（大量 Coin 与用户索引时常用 `Table` 系）  
 
 ---
@@ -319,4 +319,4 @@ Sui 提供的五种集合类型覆盖了链上数据存储的常见需求：
 
 所有集合都支持 `add`、`remove`、`borrow`、`borrow_mut`、`contains`、`length`、`is_empty` 等标准操作，且 `Table` 和 `Bag` 支持方括号索引语法。根据实际需求在类型安全性、灵活性、可发现性和性能之间做出权衡，选择最合适的集合类型。
 
-与 [§12.1](01-sui-framework.md) 的**集合选型总表**、[§12.6](06-collections.md) 的 **VecMap/VecSet** 对照阅读，可形成「小到对象内、大到动态字段」的完整选型链。
+与 [§13.1](01-sui-framework.md) 的**集合选型总表**、[§13.6](06-collections.md) 的 **VecMap/VecSet** 对照阅读，可形成「小到对象内、大到动态字段」的完整选型链。

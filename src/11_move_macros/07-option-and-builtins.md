@@ -14,7 +14,7 @@
 
 ## BCS：`peel_vec!` / `peel_option!`
 
-在 [`sui::bcs`](../../12_programmability/12-bcs.md) 中，对向量或 `Option` 的解码常配合 **`peel_vec!`、`peel_option!`** 等宏，在解码器闭包中组合 `peel_*` 调用。它们同样是**编译期展开**，减少手写样板代码。详细步骤见第十二章 BCS 一节。
+在 [`sui::bcs`](../../13_programmability/12-bcs.md) 中，对向量或 `Option` 的解码常配合 **`peel_vec!`、`peel_option!`** 等宏，在解码器闭包中组合 `peel_*` 调用。它们同样是**编译期展开**，减少手写样板代码。详细步骤见第十三章 BCS 一节。
 
 ## 测试辅助
 

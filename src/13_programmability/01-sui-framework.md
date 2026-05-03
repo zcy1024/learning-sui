@@ -2,13 +2,13 @@
 
 ## 导读
 
-本节是**第十二章的入口**：建立 **`move-stdlib` / `sui-framework` / `sui-system`** 与 **`std` / `sui` / `sui_system`** 的对应关系，并给出 **集合选型总表**。后续 [§12.2](02-transaction-context.md)～[§12.14](14-randomness.md) 文首均设有「导读」，可反复回到本节对照模块名。
+本节是**第十三章的入口**：建立 **`move-stdlib` / `sui-framework` / `sui-system`** 与 **`std` / `sui` / `sui_system`** 的对应关系，并给出 **集合选型总表**。后续 [§13.2](02-transaction-context.md)～[§13.15](15-internal-permit.md) 文首均设有「导读」，可反复回到本节对照模块名。
 
-- **建议顺序**：读完本节 → [§12.2](02-transaction-context.md) 起按章内「建议阅读路线」推进（见 [章索引](00-index.md)）。  
+- **建议顺序**：读完本节 → [§13.2](02-transaction-context.md) 起按章内「建议阅读路线」推进（见 [章索引](00-index.md)）。  
 
 ---
 
-编写 Sui 合约时，你写的 `module` 会编译进自己的**包（package）**，但类型与函数大量来自三条「公共底座」：**Move 标准库**（`std::`）、**Sui Framework**（`sui::`），以及可选的 **Sui System**（`sui_system::`）。三者源码集中在官方仓库的 `crates/sui-framework/packages/` 下，本节说明它们的**分工、依赖关系、常用模块与集合选型**，并单独交代 **sui-system** 在应用开发中的位置。§12.2 起再按主题深入各 API。
+编写 Sui 合约时，你写的 `module` 会编译进自己的**包（package）**，但类型与函数大量来自三条「公共底座」：**Move 标准库**（`std::`）、**Sui Framework**（`sui::`），以及可选的 **Sui System**（`sui_system::`）。三者源码集中在官方仓库的 `crates/sui-framework/packages/` 下，本节说明它们的**分工、依赖关系、常用模块与集合选型**，并单独交代 **sui-system** 在应用开发中的位置。§13.2 起再按主题深入各 API。
 
 ---
 
@@ -47,7 +47,7 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 
 ### 2.2 序列化、哈希与类型信息
 
-- **`std::bcs`**：BCS 编解码的底层能力。合约里若要对任意 `copy + drop` 的值做字节化，会用到；**Sui 侧**还提供了 **`sui::bcs`**（§12.12），在「与链下交互、解析输入字节」场景更常出现，二者关系可以理解为：**语言层 `std::bcs` 与链上封装 `sui::bcs` 分工配合**，具体 API 以本章 BCS 一节为准。  
+- **`std::bcs`**：BCS 编解码的底层能力。合约里若要对任意 `copy + drop` 的值做字节化，会用到；**Sui 侧**还提供了 **`sui::bcs`**（§13.12），在「与链下交互、解析输入字节」场景更常出现，二者关系可以理解为：**语言层 `std::bcs` 与链上封装 `sui::bcs` 分工配合**，具体 API 以本章 BCS 一节为准。  
 - **`std::hash`**：基础哈希原语。  
 - **`std::type_name`**：取类型的运行时名字，与[第八章 · 类型反射](../08_move_advanced/04-type-reflection.md)中的 `type_name` 用法一致。
 
@@ -58,6 +58,10 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 - **`bit_vector`**：位集；**`bool`**：布尔小工具。  
 - **`macros`**：标准库宏（见[第十一章](../11_move_macros/00-index.md)）。  
 - **`unit_test`、`debug`**：测试与调试，**不应**出现在可发布模块的生产路径里。
+
+### 2.4 `std::internal`（`Permit<T>`）
+
+- **`internal::Permit<phantom T>`** 与 **`internal::permit<T>()`**：把泛型 API 的调用授权**绑定到「定义了 `T` 的模块」**；只有该模块能构造 `Permit<T>`。典型用于类型注册表、插件式扩展点。详见 **[§13.15](15-internal-permit.md)**；源码见 [MystenLabs/sui · `internal.move`](https://github.com/MystenLabs/sui/blob/main/crates/sui-framework/packages/move-stdlib/sources/internal.move)。
 
 下面是一段**只使用 `std`**、不涉及 `sui::` 的片段（便于体会「标准库与链解耦」）：
 
@@ -101,7 +105,7 @@ public fun accumulate(v: vector<u64>): u64 {
 编译器会为每个模块**自动**引入：
 
 - **`sui::object`** — `UID`、`ID`、`object::new(ctx)`、`object::id(&obj)` 等；  
-- **`sui::tx_context`** — `TxContext` 与 `ctx.sender()`、`ctx.fresh_id()` 等（§12.2）；  
+- **`sui::tx_context`** — `TxContext` 与 `ctx.sender()`、`ctx.fresh_id()` 等（§13.2）；  
 - **`sui::transfer`** — `transfer`、`public_transfer`、`share_object`、`freeze_object` 等（[第十章](../10_using_objects/00-index.md)）。
 
 因此下面代码**无需**任何 `use sui::object` 也能编译：
@@ -128,7 +132,7 @@ public fun send(t: Thing, to: address) {
 
 - **`object`**：对象身份与 `UID` 生命周期，是[第九章 · 对象模型](../09_object_model/00-index.md)的代码载体。  
 - **`transfer`**：所有权、共享、冻结；与 `key` / `store` 能力约束一起决定你能调用哪一组 API。  
-- **`package`**：`Publisher`、`UpgradeCap`、包升级流程，与[第十二章 · 设计模式](../13_patterns/00-index.md)中的 OTW、Publisher 模式直接相关。  
+- **`package`**：`Publisher`、`UpgradeCap`、包升级流程，与[第十二章 · 设计模式](../12_patterns/00-index.md)中的 OTW、Publisher 模式直接相关。  
 - **`display` / `display_registry`**：为类型配置链下展示模板（名称、链接、图片字段等），NFT 章节会再用到。
 
 **最小可读示例**：创建一个带 `UID` 的对象并转给调用者；`artifact_id` 演示如何读 `ID`：
@@ -157,29 +161,29 @@ public fun destroy_artifact(a: Artifact) {
 
 ### 3.3 时间与随机数（依赖系统共享对象）
 
-- **`clock`**：`Clock` 提供**只读**链上时间（毫秒），对应系统共享对象地址 **`0x6`**，§12.5 会讲如何在交易里传入 `Clock`。  
-- **`random`**：链上随机数对象（地址 **`0x8`**）与公平性约定，见 §12.14。
+- **`clock`**：`Clock` 提供**只读**链上时间（毫秒），对应系统共享对象地址 **`0x6`**，§13.5 会讲如何在交易里传入 `Clock`。  
+- **`random`**：链上随机数对象（地址 **`0x8`**）与公平性约定，见 §13.14。
 
 ### 3.4 动态存储：字段、对象字段与派生对象
 
-- **`dynamic_field`**：给任意有 `UID` 的对象挂**键值对**，键类型可以不同（异构），§12.7。  
-- **`dynamic_object_field`**：值必须是 **Sui 对象**，便于索引与查询，§12.8。  
-- **`derived_object`**：由父对象与确定性规则「派生」子对象地址，注册表、命名对象等模式见 §12.9。
+- **`dynamic_field`**：给任意有 `UID` 的对象挂**键值对**，键类型可以不同（异构），§13.7。  
+- **`dynamic_object_field`**：值必须是 **Sui 对象**，便于索引与查询，§13.8。  
+- **`derived_object`**：由父对象与确定性规则「派生」子对象地址，注册表、命名对象等模式见 §13.9。
 
 ### 3.5 集合与经济（与后文章节对应）
 
-**集合**：`vec_map`、`vec_set`（§12.6）；`table`、`bag`、`object_table`、`object_bag`、`linked_table`、`table_vec`（§12.10）；另有 **`priority_queue`** 用最大堆实现优先级队列，元素需满足 `drop`，适合「每次取当前最高优先级」的调度，**与 `Table` 的用途不同**，不要混用场景。
+**集合**：`vec_map`、`vec_set`（§13.6）；`table`、`bag`、`object_table`、`object_bag`、`linked_table`、`table_vec`（§13.10）；另有 **`priority_queue`** 用最大堆实现优先级队列，元素需满足 `drop`，适合「每次取当前最高优先级」的调度，**与 `Table` 的用途不同**，不要混用场景。
 
-**代币与资产**：`balance`、`coin`、原生 **`SUI`**（`sui::sui::SUI`）见 §12.11；`token`、**`coin_registry`**、**Kiosk** 等与[第十五章 · 代币](../15_tokens/00-index.md)、[第十六章 · NFT](../16_nft_kiosk/00-index.md)衔接。
+**代币与资产**：`balance`、`coin`、原生 **`SUI`**（`sui::sui::SUI`）见 §13.11；`token`、**`coin_registry`**、**Kiosk** 等与[第十五章 · 代币](../15_tokens/00-index.md)、[第十六章 · NFT](../16_nft_kiosk/00-index.md)衔接。
 
 ### 3.6 工具与密码学
 
-- **`sui::bcs`**：合约内 BCS 构造与解析，§12.12。  
+- **`sui::bcs`**：合约内 BCS 构造与解析，§13.12。  
 - **`hex`**：十六进制编解码。  
 - **`borrow`**：「借出对象必须归还」类安全封装。  
 - **`types`**：如 `is_one_time_witness`，配合 `package::claim`，见下文示例。  
-- **`event`**：`emit`，§12.4。  
-- **`crypto/*`**：哈希、签名、BLS、Groth16 等，§12.13。
+- **`event`**：`emit`，§13.4。  
+- **`crypto/*`**：哈希、签名、BLS、Groth16 等，§13.13。
 
 ### 3.7 事件与 OTW（连贯示例）
 
@@ -280,7 +284,7 @@ public fun new_large(ctx: &mut TxContext): LargeRegistry {
 }
 ```
 
-具体增删 API 见 §12.6、§12.10；这里只需建立**选型直觉**。
+具体增删 API 见 §13.6、§13.10；这里只需建立**选型直觉**。
 
 ---
 
@@ -302,7 +306,7 @@ public fun new_large(ctx: &mut TxContext): LargeRegistry {
 # SuiSystem = { git = "...", subdir = "crates/sui-framework/packages/sui-system", rev = "framework/mainnet" }
 ```
 
-3. **系统模块的公开接口会随协议升级而变化**，本书 §12.1 只建立概念边界；具体函数签名、权限与错误码务必以**当前网络**的官方文档与 `sui-system/sources/` 为准。
+3. **系统模块的公开接口会随协议升级而变化**，本书 §13.1 只建立概念边界；具体函数签名、权限与错误码务必以**当前网络**的官方文档与 `sui-system/sources/` 为准。
 
 ---
 
@@ -322,4 +326,4 @@ public fun new_large(ctx: &mut TxContext): LargeRegistry {
 - **集合**没有银弹：对象内 **VecMap/VecSet**、动态字段 **Table/LinkedTable/Bag**、对象索引 **ObjectTable/ObjectBag**、调度 **PriorityQueue**，按数据规模与值是否对象来选。  
 - **sui-system** 与业务框架分离，普通合约先掌握 **`std` + `sui`** 即可。  
 
-读完本节，可按目录顺序继续 §12.2（交易上下文）→ §12.4（事件）→ … → 把本章串成一条完整动手路径。
+读完本节，可按目录顺序继续 §13.2（交易上下文）→ §13.4（事件）→ … → 把本章串成一条完整动手路径。

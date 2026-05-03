@@ -19,10 +19,10 @@
 
 ## 与本书其它章的衔接
 
-按全书侧边栏顺序，**第八章**、**第九～十章**在本章之前；**第十二章**（Framework 等）起在本章之后。
+按全书侧边栏顺序，**第八章**、**第九～十章**在本章之前；**第十二章 · 设计模式**与**第十三章 · 高级可编程性**（Framework 等）起在本章之后。
 
 - 泛型与能力：[第八章 §8.1–8.2](../08_move_advanced/01-generics-basics.md)、[§8.2](../08_move_advanced/02-type-parameters-and-constraints.md)
 - 方法语法与 `use fun`：[第六章 §6.7](../06_move_intermediate/07-struct-methods.md)
 - 对象模型与使用对象：[第九～十章索引](../09_object_model/00-index.md)
 - 宏函数导读：[第六章 §6.8](../06_move_intermediate/08-macros.md)
-- 后续：**BCS** 与 `peel_*!`：[第十二章 §12.12](../12_programmability/12-bcs.md)
+- 后续：**BCS** 与 `peel_*!`：[第十三章 §13.12](../13_programmability/12-bcs.md)

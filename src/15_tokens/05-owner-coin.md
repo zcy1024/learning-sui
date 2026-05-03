@@ -6,7 +6,7 @@
 - **`split` / `join`** 与 **`sui::pay`** 提供的便捷方法各在什么场景胜出？  
 - **`into_balance` / `from_balance`** 与 **`coin::take` / `put`** 如何分工？
 
-**前置**：[§15.4](04-treasury.md)、[第十二章 §12.11](../12_programmability/11-balance-and-coin.md)。  
+**前置**：[§15.4](04-treasury.md)、[第十三章 §13.11](../13_programmability/11-balance-and-coin.md)。  
 **后续**：[§15.6](06-shared-currency.md)。
 
 ---

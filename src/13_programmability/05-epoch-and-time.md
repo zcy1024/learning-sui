@@ -2,10 +2,10 @@
 
 ## 导读
 
-本节对应 [§12.1](01-sui-framework.md) 中的 **`sui::clock`** 与 **TxContext 中的 epoch 字段**：**Epoch** 粗粒度、低开销，适合锁仓周期；**`Clock`**（系统对象 `0x6`）提供毫秒级只读时间，需按交易传入。与 [§12.14](14-randomness.md) 的 **`Random@0x8`** 同属「系统共享对象」语境，但语义完全不同。
+本节对应 [§13.1](01-sui-framework.md) 中的 **`sui::clock`** 与 **TxContext 中的 epoch 字段**：**Epoch** 粗粒度、低开销，适合锁仓周期；**`Clock`**（系统对象 `0x6`）提供毫秒级只读时间，需按交易传入。与 [§13.14](14-randomness.md) 的 **`Random@0x8`** 同属「系统共享对象」语境，但语义完全不同。
 
-- **前置**：[§12.2](02-transaction-context.md)（`ctx.epoch()`）、[§12.1](01-sui-framework.md)  
-- **后续**：[§12.14](14-randomness.md)（随机数，勿与 `Clock` 混淆）  
+- **前置**：[§13.2](02-transaction-context.md)（`ctx.epoch()`）、[§13.1](01-sui-framework.md)  
+- **后续**：[§13.14](14-randomness.md)（随机数，勿与 `Clock` 混淆）  
 
 ---
 
@@ -350,4 +350,4 @@ public fun time_until_ready(player: &Player, clock: &Clock): u64 {
 
 Sui 提供了两种互补的时间机制。**Epoch** 来自 TxContext，表示网络运行周期（约 24 小时），适合粗粒度的时间逻辑，且无额外开销。**Clock** 是位于地址 `0x6` 的系统共享对象，提供毫秒级精度的时间戳，适合拍卖、冷却期、精确限时等场景，但需要作为 `&Clock` 引用传入函数。选择时间机制时，应根据业务需求的精度要求来决定：周期性逻辑优先使用 epoch，精确计时逻辑使用 Clock。两种机制可以在同一函数中组合使用。
 
-[§12.1](01-sui-framework.md) 将 **`clock`** 与 **`random`**、**`tx_context` 中的 epoch** 放在同一套「框架地图」里，便于和 [§12.14](14-randomness.md) 区分系统对象用途。
+[§13.1](01-sui-framework.md) 将 **`clock`** 与 **`random`**、**`tx_context` 中的 epoch** 放在同一套「框架地图」里，便于和 [§13.14](14-randomness.md) 区分系统对象用途。

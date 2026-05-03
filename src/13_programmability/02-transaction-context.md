@@ -2,10 +2,10 @@
 
 ## 导读
 
-本节对应 [§12.1 · Sui Framework 概览](01-sui-framework.md) 中 **隐式导入**的 **`sui::tx_context`**：`TxContext` 由运行时注入，**不可自行构造**。凡使用 `object::new(ctx)`、`ctx.sender()`、`ctx.epoch()` 等，都建立在本节规则之上。
+本节对应 [§13.1 · Sui Framework 概览](01-sui-framework.md) 中 **隐式导入**的 **`sui::tx_context`**：`TxContext` 由运行时注入，**不可自行构造**。凡使用 `object::new(ctx)`、`ctx.sender()`、`ctx.epoch()` 等，都建立在本节规则之上。
 
-- **前置**：[§12.1](01-sui-framework.md)（三层包、`object`/`transfer`/`tx_context` 隐式模块）  
-- **后续**：[§12.3](03-module-initializer.md)（`init` 的 `ctx`）、[§12.4](04-events.md)（事件中常用 `sender`）、[§12.5](05-epoch-and-time.md)（`epoch` 与 `Clock` 的取舍）  
+- **前置**：[§13.1](01-sui-framework.md)（三层包、`object`/`transfer`/`tx_context` 隐式模块）  
+- **后续**：[§13.3](03-module-initializer.md)（`init` 的 `ctx`）、[§13.4](04-events.md)（事件中常用 `sender`）、[§13.5](05-epoch-and-time.md)（`epoch` 与 `Clock` 的取舍）  
 
 ---
 
@@ -264,4 +264,4 @@ public fun unstake(stake: Stake, ctx: &TxContext): u64 {
 
 TxContext 是 Sui Move 交易执行的核心上下文对象，由虚拟机自动创建，不可手动构造。它提供了 `sender()`、`epoch()`、`epoch_timestamp_ms()` 等方法来读取当前交易的运行时信息。当需要创建新对象时，必须以 `&mut TxContext` 形式传入，因为 `object::new()` 会修改其内部的 `ids_created` 计数器。TxContext 必须作为函数的**最后一个参数**。`fresh_object_address()` 可以在不创建完整 UID 的情况下生成唯一地址。在实际开发中，TxContext 最常用于获取发送者地址进行权限控制，以及创建新的 Sui 对象。
 
-在 [§12.1](01-sui-framework.md) 的框架地图里，把 **`tx_context`** 与 **`object`、`transfer`** 并列记忆，有助于快速判断「哪些 API 不需要手写 `use`」。
+在 [§13.1](01-sui-framework.md) 的框架地图里，把 **`tx_context`** 与 **`object`、`transfer`** 并列记忆，有助于快速判断「哪些 API 不需要手写 `use`」。

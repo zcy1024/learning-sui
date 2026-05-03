@@ -58,7 +58,7 @@ sui move test --test --mode debug
 
 ## test 模式（单元测试）
 
-`#[test_only]` 即内置的 `test` 模式，行为与 `#[mode(test)]` 一致。使用 `sui move test --test` 时，会自动启用 `test` 模式，从而编入所有 `#[test_only]` 的模块和函数。详见第十二章「测试」。
+`#[test_only]` 即内置的 `test` 模式，行为与 `#[mode(test)]` 一致。使用 `sui move test --test` 时，会自动启用 `test` 模式，从而编入所有 `#[test_only]` 的模块和函数。详见第十四章「测试」。
 
 ## 自定义模式示例：debug
 

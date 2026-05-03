@@ -161,7 +161,7 @@
 |------|------|------|
 | Table | Table | 同构动态键值集合，条目存储为动态字段 |
 | TokenPolicy | TokenPolicy | 闭环代币 `Token<T>` 的策略对象（共享），声明允许的动作与 Rule；见[第十五章 §15.10](../15_tokens/10-token-policy.md) |
-| TreasuryCap | TreasuryCap | 铸币权对象，内含 `Supply<T>`，是 `mint`/`burn` 的正规入口；见[第十二章 §12.11](../12_programmability/11-balance-and-coin.md)、[第十五章](../15_tokens/00-index.md) |
+| TreasuryCap | TreasuryCap | 铸币权对象，内含 `Supply<T>`，是 `mint`/`burn` 的正规入口；见[第十三章 §13.11](../13_programmability/11-balance-and-coin.md)、[第十五章](../15_tokens/00-index.md) |
 | TEE | Trusted Execution Environment | 可信执行环境，提供硬件级代码隔离 |
 | 测试网 | Testnet | Sui 的测试网络 |
 | Transfer | Transfer | 将对象所有权转移到指定地址的操作 |

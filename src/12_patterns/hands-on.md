@@ -1,8 +1,8 @@
-# 第十三章 · 实战练习
+# 第十二章 · 实战练习
 
 ## 实战一：Capability 链上走一遍
 
-1. 进入 `src/13_patterns/code/patterns_lab/`。
+1. 进入 `src/12_patterns/code/patterns_lab/`。
 2. `sui move build` / `test`，确认 `AdminCap` 在 `init` 中发给部署者。
 3. 发布到测试网后，用 PTB 调用需要 `&AdminCap` 的函数（若当前仅有 `is_admin`，可扩展一个 `entry` 仅做校验）。
 4. **验收**：交易成功且逻辑与「持有 cap 才能过」一致。

@@ -6,7 +6,7 @@
 - **`CurrencyInitializer<T>`**、**`finalize`** 在 Move 类型系统里分别扮演什么角色？  
 - **`new_currency_with_otw`** 与 **`new_currency`**（需传入 **`&mut CoinRegistry`**）各适用于什么场景？
 
-**前置**：[§15.1 · 本章导论](01-overview.md)、[第十二章 · OTW](../13_patterns/03-one-time-witness.md)。  
+**前置**：[§15.1 · 本章导论](01-overview.md)、[第十二章 · OTW](../12_patterns/03-one-time-witness.md)。  
 **后续**：[§15.3 · 元数据](03-coin-metadata.md)。
 
 ---

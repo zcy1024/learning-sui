@@ -2,9 +2,9 @@
 
 ## 导读
 
-本节对应 [§12.1](01-sui-framework.md) 中的 **`sui::balance`、`sui::coin`** 与原生 **`SUI`**：描述余额如何在对象间拆分、封装与销毁，是 [§12.12](12-bcs.md)（链下构造参数）、[第十五章 · 代币](../15_tokens/00-index.md)（**注册、合规、Token**）的**共同基础**。
+本节对应 [§13.1](01-sui-framework.md) 中的 **`sui::balance`、`sui::coin`** 与原生 **`SUI`**：描述余额如何在对象间拆分、封装与销毁，是 [§13.12](12-bcs.md)（链下构造参数）、[第十五章 · 代币](../15_tokens/00-index.md)（**注册、合规、Token**）的**共同基础**。
 
-- **前置**：[§12.1](01-sui-framework.md)、[第十章 · 存储函数](../10_using_objects/04-storage-functions.md)（对象与 `store` 语境）  
+- **前置**：[§13.1](01-sui-framework.md)、[第十章 · 存储函数](../10_using_objects/04-storage-functions.md)（对象与 `store` 语境）  
 - **后续**：[第十五章](../15_tokens/00-index.md)（**`coin_registry`、元数据、DenyList、闭环 Token**；本章「创建新代币」仅保留与 §15 的分工说明，**完整示例见第十五章**）  
 
 ---
@@ -137,7 +137,7 @@ public struct TreasuryCap<phantom T> has key, store {
 
 本节只建立 **`Balance` / `Coin` / `TreasuryCap`** 与 **`mint` / `burn`** 的**语义**；**完整发币流程**（**OTW**、**`coin_registry::new_currency_with_otw`**、**`finalize`**、**`CoinRegistry`**、**`MetadataCap`**、合规与闭环 **Token**）在 **[第十五章 · 代币经济](../15_tokens/00-index.md)** 专章展开，**避免两章重复同一长示例**。
 
-请牢记：**`coin::create_currency` 已废弃**；新币应走 **`coin_registry`** 注册路径。第十五章 §15.2 提供与示例包 `silver_coin` 对齐的 **`init`** 与参数说明；第十二章此处仅保留 **`mint` / `burn`** 接口形态，供下文「铸造与销毁」引用。
+请牢记：**`coin::create_currency` 已废弃**；新币应走 **`coin_registry`** 注册路径。第十五章 §15.2 提供与示例包 `silver_coin` 对齐的 **`init`** 与参数说明；第十三章此处仅保留 **`mint` / `burn`** 接口形态，供下文「铸造与销毁」引用。
 
 ## 铸造与销毁
 

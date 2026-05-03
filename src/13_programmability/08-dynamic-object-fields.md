@@ -2,10 +2,10 @@
 
 ## 导读
 
-本节对应 [§12.1](01-sui-framework.md) 中的 **`sui::dynamic_object_field`**：键值中的**值必须是 Sui 对象**（`key`），便于全节点**按对象索引**。与普通 [§12.7 · 动态字段](07-dynamic-fields.md) 的取舍是：是否要**把子对象当作一等资源**索引与转移。
+本节对应 [§13.1](01-sui-framework.md) 中的 **`sui::dynamic_object_field`**：键值中的**值必须是 Sui 对象**（`key`），便于全节点**按对象索引**。与普通 [§13.7 · 动态字段](07-dynamic-fields.md) 的取舍是：是否要**把子对象当作一等资源**索引与转移。
 
-- **前置**：[§12.7](07-dynamic-fields.md)（普通动态字段 API 与能力约束）  
-- **后续**：[§12.10](10-dynamic-collections.md)（`ObjectTable` / `ObjectBag` 再封装一层）  
+- **前置**：[§13.7](07-dynamic-fields.md)（普通动态字段 API 与能力约束）  
+- **后续**：[§13.10](10-dynamic-collections.md)（`ObjectTable` / `ObjectBag` 再封装一层）  
 
 ---
 

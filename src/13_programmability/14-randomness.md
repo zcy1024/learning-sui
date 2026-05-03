@@ -2,9 +2,9 @@
 
 ## 导读
 
-本节对应 [§12.1](01-sui-framework.md) 中的 **`sui::random`**：**`Random` 共享对象（`0x8`）** 提供协议级随机性，与 [§12.5](05-epoch-and-time.md) 的 **`Clock@0x6`** 一样属于**系统共享对象**，但用途完全不同——勿用时间戳或 epoch 代替随机数。
+本节对应 [§13.1](01-sui-framework.md) 中的 **`sui::random`**：**`Random` 共享对象（`0x8`）** 提供协议级随机性，与 [§13.5](05-epoch-and-time.md) 的 **`Clock@0x6`** 一样属于**系统共享对象**，但用途完全不同——勿用时间戳或 epoch 代替随机数。
 
-- **前置**：[§12.5](05-epoch-and-time.md)（系统对象传入交易的习惯）、[§12.2](02-transaction-context.md)  
+- **前置**：[§13.5](05-epoch-and-time.md)（系统对象传入交易的习惯）、[§13.2](02-transaction-context.md)  
 - **后续**：[第十八章 · 安全](../20_security/00-index.md)（随机数误用与博弈场景）  
 
 ---

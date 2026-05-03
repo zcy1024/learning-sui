@@ -2,10 +2,10 @@
 
 ## 导读
 
-本节对应 [§12.1](01-sui-framework.md) **集合选型表**中的 **`VecMap` / `VecSet`**：数据存放在**宿主对象内部**，实现简单、适合**小规模**；与 [§12.10](10-dynamic-collections.md) 的 `Table` / `Bag` 等（**动态字段**后端、可扩展）形成对照。
+本节对应 [§13.1](01-sui-framework.md) **集合选型表**中的 **`VecMap` / `VecSet`**：数据存放在**宿主对象内部**，实现简单、适合**小规模**；与 [§13.10](10-dynamic-collections.md) 的 `Table` / `Bag` 等（**动态字段**后端、可扩展）形成对照。
 
-- **前置**：[§12.1](01-sui-framework.md)（选型表）、[第六章 · Vector](../06_move_intermediate/02-vector.md)（底层仍是 `vector` 语义）  
-- **后续**：[§12.10](10-dynamic-collections.md)（数据变大时迁移思路）  
+- **前置**：[§13.1](01-sui-framework.md)（选型表）、[第六章 · Vector](../06_move_intermediate/02-vector.md)（底层仍是 `vector` 语义）  
+- **后续**：[§13.10](10-dynamic-collections.md)（数据变大时迁移思路）  
 
 ---
 
@@ -385,4 +385,4 @@ public fun has_permission(
 
 `VecSet` 和 `VecMap` 是 Sui Framework 提供的轻量级集合类型，基于 `vector` 实现，数据存储在对象内部。`VecSet` 提供去重集合语义，`VecMap` 提供键值映射语义，两者都保证键/元素的唯一性。它们适合存储小规模数据（通常几十到几百个元素），操作简单且 Gas 开销较低。但由于底层使用线性扫描，操作复杂度为 O(n)，且受对象大小限制（约 256 KB），不适合大规模数据存储。当数据量增长到数百以上时，应考虑使用 `Table`、`Bag` 等基于动态字段的集合类型。
 
-回到 [§12.1](01-sui-framework.md) 的集合对比表，把「**对象内**」与「**动态字段**」两行对照记忆，选型会更快。
+回到 [§13.1](01-sui-framework.md) 的集合对比表，把「**对象内**」与「**动态字段**」两行对照记忆，选型会更快。
