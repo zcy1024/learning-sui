@@ -3,11 +3,12 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
-# 较新的 Sui CLI 在缺少 client 配置时会对若干子命令（含 move build）交互询问；
-# CI 与无配置环境需先非交互生成默认 ~/.sui/sui_config/client.yaml（见官方文档 sui client -y）。
+# 较新的 Sui CLI 在缺少 client 配置时会对若干子命令（含 move build）交互询问。
+# `-y` 必须配合子命令才会创建配置；单独 `sui client -y` 只会打印 help。这里用 `envs`
+# 触发初始化（与官方文档「sui client -y」意图一致，见 `sui client --help`）。
 if [[ ! -f "${HOME}/.sui/sui_config/client.yaml" ]]; then
-  echo "==> no Sui client config; running: sui client -y"
-  sui client -y
+  echo "==> no Sui client config; running: sui client -y envs"
+  sui client -y envs
 fi
 
 failed=0
