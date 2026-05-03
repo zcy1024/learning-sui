@@ -93,9 +93,7 @@ module book::sui_imports;
 use sui::coin::{Self, Coin};
 use sui::sui::SUI;
 use sui::event;
-use sui::object;
-use sui::transfer;
-use sui::tx_context::TxContext;
+// `object` / `transfer` / `TxContext` 等已由 Prelude 预导入，勿再写同名 use（会 duplicate_alias）。
 use std::string::String;
 ```
 

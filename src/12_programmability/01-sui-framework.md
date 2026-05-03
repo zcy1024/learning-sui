@@ -29,7 +29,7 @@
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/mainnet" }
 ```
 
-`rev` 与 mainnet / testnet 对齐方式见[第六章 §6.11 · Move 2024 Edition](../06_move_intermediate/11-move-2024.md)。工具链会为 `std`、`sui` 等解析到已发布的框架地址，因此业务代码里直接写 `std::vector::empty()`、`sui::coin::Coin` 即可，一般**不必**在自有 `Move.toml` 的 `[addresses]` 里重复填 `0x1` / `0x2`（除非教程或本地测试有特殊占位需求）。
+`rev` 与 mainnet / testnet 对齐方式见[第六章 §6.11 · Move 2024 Edition](../06_move_intermediate/11-move-2024.md)。工具链会为 `std`、`sui` 等解析到已发布的框架地址，因此业务代码里可直接写 **`vector<T>[]` 字面量**、`sui::coin::Coin` 等，一般**不必**在自有 `Move.toml` 的 `[addresses]` 里重复填 `0x1` / `0x2`（除非教程或本地测试有特殊占位需求）。
 
 **阅读源码时的习惯**：想查「`option` 怎么实现的」→ 打开 `move-stdlib/sources/option.move`；想查「`Table` 的 `add` 有什么前置条件」→ 打开 `sui-framework/sources/table.move`。把目录名与 `use` 路径对应起来，查文档会快很多。
 
@@ -67,9 +67,6 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 
 ```move
 module example::stdlib_only;
-
-use std::vector;
-use std::option::{Self, Option};
 
 public fun sum_or_zero(maybe: Option<u64>): u64 {
     if (maybe.is_some()) {

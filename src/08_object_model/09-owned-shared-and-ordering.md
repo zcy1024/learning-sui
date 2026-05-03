@@ -46,7 +46,7 @@ public fun write_note(content: vector<u8>, ctx: &mut TxContext) {
 public fun create_bulletin(ctx: &mut TxContext) {
     let bulletin = Bulletin {
         id: object::new(ctx),
-        messages: vector::empty(),
+        messages: vector<vector<u8>>[],
     };
     transfer::share_object(bulletin);
 }

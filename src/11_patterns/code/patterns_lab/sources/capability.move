@@ -1,10 +1,6 @@
 /// 第十一章：Capability 模式最小示例（AdminCap）。
 module patterns_lab::capability;
 
-use sui::object::{Self, UID};
-use sui::transfer;
-use sui::tx_context::{Self, TxContext};
-
 public struct AdminCap has key, store {
     id: UID,
 }

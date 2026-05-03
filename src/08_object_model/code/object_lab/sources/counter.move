@@ -1,10 +1,6 @@
 /// 第八章对象模型：带 `key` 与 `UID` 的最小链上对象示例。
 module object_lab::counter;
 
-use sui::object::{Self, UID};
-use sui::transfer;
-use sui::tx_context::TxContext;
-
 public struct Counter has key, store {
     id: UID,
     value: u64,
@@ -17,6 +13,8 @@ public fun new(ctx: &mut TxContext): Counter {
     }
 }
 
+/// 教学用：将调用方传入的 `Counter` 转为共享对象（会触发 share_owned lint，此处显式允许）。
+#[allow(lint(share_owned))]
 public fun share(self: Counter) {
     transfer::public_share_object(self);
 }

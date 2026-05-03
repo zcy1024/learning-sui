@@ -1,7 +1,5 @@
 module ch05_20_entry::entry_mod;
 
-use sui::tx_context::TxContext;
-
 #[error]
 const EPingNeedPositive: vector<u8> = b"ping requires n > 0";
 

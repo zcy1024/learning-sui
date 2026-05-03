@@ -4,8 +4,6 @@ module silver_coin::silver;
 use std::string;
 use sui::coin::{Self, TreasuryCap, Coin};
 use sui::coin_registry;
-use sui::transfer;
-use sui::tx_context::{Self, TxContext};
 
 public struct SILVER() has drop;
 

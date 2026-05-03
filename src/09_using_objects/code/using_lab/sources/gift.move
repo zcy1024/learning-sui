@@ -1,10 +1,6 @@
 /// 第九章：转移与存储 API 的最小示例（`public_transfer`）。
 module using_lab::gift;
 
-use sui::object::{Self, UID};
-use sui::transfer;
-use sui::tx_context::TxContext;
-
 public struct Gift has key, store {
     id: UID,
     label: u64,

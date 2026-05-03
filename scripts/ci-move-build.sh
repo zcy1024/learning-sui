@@ -19,13 +19,9 @@ while IFS= read -r toml; do
   else
     echo "==> sui move build: $dir"
   fi
-  # GitHub workflow installs `sui@testnet`; default build env matches testnet.  Without `-e
-  # testnet`, some Move.lock files that only pin mainnet can fail dependency resolution.
-  sui_args=()
-  if [[ -n "${GITHUB_ACTIONS:-}" ]]; then
-    sui_args+=(-e testnet)
-  fi
-  if (cd "$dir" && sui move build "${sui_args[@]}"); then
+  # 与 CI 一致使用 testnet 环境解析依赖（部分 Move.lock 仅含 testnet pin）；且避免在
+  # `set -u` 下展开空数组 `"${sui_args[@]}"`（macOS 默认 bash 3.2 等会报错）。
+  if (cd "$dir" && sui move build -e testnet); then
     :
   else
     failed=1

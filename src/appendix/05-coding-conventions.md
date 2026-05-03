@@ -209,11 +209,10 @@ ctx.sender();
 ### Vector
 
 ```move
-// 不推荐
-let mut v = vector::empty();
-vector::push_back(&mut v, 10);
-let first = vector::borrow(&v, 0);
-assert!(vector::length(&v) == 1);
+// 不推荐（`vector::empty` 等旧 API 已弃用，且与 `vector[]` 风格不一致）
+// let mut v = vector::empty();
+// vector::push_back(&mut v, 10);
+// …
 
 // 推荐
 let mut v = vector[10];

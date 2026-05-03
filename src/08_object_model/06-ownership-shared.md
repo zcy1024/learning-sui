@@ -23,7 +23,7 @@ public struct Registry has key {
 public fun create(ctx: &mut TxContext) {
     let registry = Registry {
         id: object::new(ctx),
-        entries: vector::empty(),
+        entries: vector<vector<u8>>[],
     };
     transfer::share_object(registry);
 }

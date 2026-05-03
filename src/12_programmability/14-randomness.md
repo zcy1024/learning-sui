@@ -128,7 +128,7 @@ public struct Lottery has key {
 public fun create(ctx: &mut TxContext) {
     let lottery = Lottery {
         id: object::new(ctx),
-        participants: vector::empty(),
+        participants: vector<address>[],
         winner: option::none(),
     };
     transfer::share_object(lottery);

@@ -2,9 +2,6 @@
 module simple_nft::hero;
 
 use std::string::{Self, String};
-use sui::object::{Self, UID};
-use sui::transfer;
-use sui::tx_context::{Self, TxContext};
 
 public struct Hero has key, store {
     id: UID,

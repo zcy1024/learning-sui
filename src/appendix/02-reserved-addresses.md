@@ -22,8 +22,7 @@
 
 ```move
 use std::string::String;
-use std::option::{Self, Option};
-use std::vector;
+// `std::vector`、`std::option` / `Option` 等在 Move 2024 Prelude 中已可用，再写同名 use 会警告。
 use std::type_name;
 use std::ascii;
 use std::bcs;
@@ -50,9 +49,7 @@ use std::debug;
 提供 Sui 区块链的核心功能：
 
 ```move
-use sui::object::{Self, UID, ID};
-use sui::transfer;
-use sui::tx_context::TxContext;
+// `sui::object` / `sui::transfer` / `TxContext` 等常见项在 Prelude 中；以下多为仍需显式 use 的模块。
 use sui::coin::{Self, Coin};
 use sui::balance::{Self, Balance};
 use sui::event;

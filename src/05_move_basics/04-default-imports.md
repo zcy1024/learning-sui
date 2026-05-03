@@ -4,12 +4,13 @@
 
 ## 为什么需要 Prelude
 
-合约里几乎总会用到 `object::new`、`transfer::public_transfer`、`TxContext` 等。若每个文件都重复：
+合约里几乎总会用到 `object::new`、`transfer::public_transfer`、`TxContext` 等。若每个文件都重复写与 **Prelude** 同名的 `use`（例如 `use sui::object;` / `use sui::transfer;` / `use sui::tx_context::TxContext;`），会触发 **duplicate alias** 警告——下面用注释列出「勿再原样复制」的旧习惯即可：
 
 ```move
-use sui::object;
-use sui::transfer;
-use sui::tx_context::TxContext;
+// 下列路径已由 Move 2024 Prelude 提供，无需、也不应再写同名 use：
+// use sui::object;
+// use sui::transfer;
+// use sui::tx_context::TxContext;
 ```
 
 既冗长又易与编译器内建别名冲突。因此 Sui 工具链为 **Move 2024 Edition** 提供了预导入集合（具体列表以当前 `sui move build` 为准，随版本可能微调）。

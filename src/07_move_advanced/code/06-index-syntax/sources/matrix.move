@@ -1,7 +1,5 @@
 module ch07_05_index::matrix;
 
-use std::vector;
-
 public struct Matrix<T> has drop {
     v: vector<vector<T>>,
 }
