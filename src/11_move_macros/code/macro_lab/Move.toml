@@ -1,6 +1,6 @@
 [package]
-name = "ch07_macro_lab"
-edition = "2024.beta"
+name = "ch11_macro_lab"
+edition = "2024"
 
 [addresses]
-ch07_macro_lab = "0x0"
+ch11_macro_lab = "0x0"

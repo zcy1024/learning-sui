@@ -4,7 +4,9 @@
 
 ## 在线阅读
 
-（部署后在此填写在线地址，例如：<https://hoh-zone.github.io/learning-sui/>）
+GitHub Pages（与 `main` 分支部署工作流一致）：<https://hoh-zone.github.io/learning-sui/>
+
+若该地址尚未启用，可本地执行 `mdbook serve` 阅读；启用 Pages 后若 URL 有变，请以仓库 **Settings → Pages** 为准。
 
 ## 本地阅读与构建
 

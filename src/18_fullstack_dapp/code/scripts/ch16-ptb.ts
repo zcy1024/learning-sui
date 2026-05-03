@@ -1,5 +1,5 @@
 /**
- * 第十六章脚本层：与第十五章 `ptb-demo` 相同思路，演示 Transaction 组合（可改为 move_call 调 `ch16_move_lab::counter::bump`）。
+ * 第十八章脚本层：与第十七章 `ptb-demo` 相同思路，演示 Transaction 组合（可改为 move_call 调 `ch16_move_lab::counter::bump`）。
  */
 import { getJsonRpcFullnodeUrl, SuiJsonRpcClient } from '@mysten/sui/jsonRpc';
 import { Transaction } from '@mysten/sui/transactions';

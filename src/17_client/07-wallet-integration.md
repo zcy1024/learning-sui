@@ -11,7 +11,7 @@ Sui 钱包遵循 Wallet Standard 规范，定义了钱包应实现的标准接�
 - **签名交易**：请求用户签名交易
 - **签名消息**：请求用户签名任意消息
 
-所有兼容的钱包（Sui Wallet、Suiet、Martian 等）都实现了这些接口。
+所有实现 Wallet Standard 的浏览器钱包（例如 Mysten **Sui Wallet**、以及生态中其它兼容实现）都提供上述能力；具体品牌与支持网络以各钱包官方说明为准。
 
 ## 使用 dApp Kit 集成钱包
 

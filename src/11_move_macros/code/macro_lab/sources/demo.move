@@ -1,5 +1,5 @@
-/// 第七章宏示例：自定义宏与 vector / option 标准库宏。
-module ch07_macro_lab::demo;
+/// 第十一章宏示例：自定义宏与 vector / option 标准库宏。
+module ch11_macro_lab::demo;
 
 macro fun add($a: u64, $b: u64): u64 {
     $a + $b

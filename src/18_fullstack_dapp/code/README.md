@@ -1,11 +1,11 @@
-# 第十六章 · 示例代码（全栈 DApp）
+# 第十八章 · 示例代码（全栈 DApp）
 
 本章目录含 **Move + 浏览器前端 + Node 脚本** 三套独立子工程（各自 `package.json` / `Move.toml`）。
 
 | 目录 | 说明 |
 |------|------|
 | **`move_lab/`** | 发布时发给部署者的 `Counter`，含 `entry fun bump` |
-| **`web_stub/`** | Vite + React，浏览器内用 `@mysten/sui/jsonRpc` 读测试网 chain id |
+| **`web_stub/`** | Vite + React；`@mysten/dapp-kit-react` + `@tanstack/react-query` + gRPC 客户端，演示连接钱包与 `client.core.getChainIdentifier()` |
 | **`scripts/`** | Node 下 `Transaction` PTB 模板；`call-bump-template.ts` 为对已发布 Counter 调 `bump` 的构建模板 |
 
 ```bash

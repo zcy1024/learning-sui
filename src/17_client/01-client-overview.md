@@ -95,6 +95,10 @@ console.log(`Address: ${keypair.toSuiAddress()}`);
 
 **SuiGrpcClient**（见上文「初始化客户端」）使用二进制 gRPC 协议，为当前推荐方式。**SuiJsonRpcClient** 使用 JSON-RPC，兼容旧版节点或工具时可选。
 
+### 与 GraphQL 的关系
+
+Sui 还提供面向索引与复杂查询的 **GraphQL RPC**（端点、Schema 与 IDE 用法见[第二十一章 · GraphQL API](../21_infrastructure/04-graphql-api.md)）。**一般 dApp 读写交易与对象**：优先用本节的 **`@mysten/sui`（gRPC 或 JSON-RPC）** 构造与提交；**分析类、报表类、多跳关联查询**再考虑 GraphQL 或自建索引器，避免把 GraphQL 当作唯一「读链」入口而忽略 PTB 与 gRPC 路径。
+
 ## dApp Kit（React）
 
 dApp Kit 为 React 开发者提供了完整的 Sui dApp 开发工具包：

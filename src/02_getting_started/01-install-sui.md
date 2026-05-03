@@ -71,13 +71,15 @@ suiup install sui@testnet
 suiup install sui@devnet
 suiup install sui@mainnet
 
-# 指定版本号（示例）
+# 指定版本号（仅作语法示例；具体可用标签以 suiup / 官方文档为准）
 suiup install sui@testnet-1.40.1
 suiup install sui@1.44.2
 
 # CI 等非交互场景可跳过确认
 suiup install sui -y
 ```
+
+> **版本号说明**：上两行中的 `1.40.1`、`1.44.2` 等**不是**要求你固定安装该版本，仅演示 `suiup install sui@…` 的写法。实际编号随发布而变，请以 [docs.sui.io](https://docs.sui.io) 或 `suiup` 列出的版本为准；与本书示例对齐时，优先保证本地 `sui --version` 与 `Move.lock` 中 Framework `rev` 所用工具链大版本兼容。
 
 安装完成后验证：
 

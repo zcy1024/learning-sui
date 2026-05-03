@@ -1,6 +1,6 @@
 [package]
 name = "ch05_14_ability_copy"
-edition = "2024.beta"
+edition = "2024"
 
 [addresses]
 ch05_14_ability_copy = "0x0"

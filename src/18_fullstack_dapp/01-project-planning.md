@@ -20,7 +20,7 @@
 | 英雄铸造 | `new_hero` 函数 | 交易构造 + 签名 |
 | 武器铸造 | `new_weapon` 函数 | 交易构造 + 签名 |
 | 装备管理 | `equip_weapon` / `unequip_weapon` | UI 交互 + PTB 调用 |
-| 英雄列表 | `HeroRegistry` 共享对象 | RPC 查询 + 渲染 |
+| 英雄列表 | `HeroRegistry` 共享对象 | 链上查询（gRPC / JSON-RPC）+ 渲染 |
 | 我的英雄 | — | `getOwnedObjects` 过滤 |
 
 ## 技术选型
@@ -34,8 +34,8 @@
 │                                                    │
 │  智能合约层    Sui Move                             │
 │  集成测试层    TypeScript + @mysten/sui SDK         │
-│  前端 UI 层   React + @mysten/dapp-kit             │
-│  钱包连接层    Slush Wallet / Suiet / Sui Wallet   │
+│  前端 UI 层   React + @mysten/dapp-kit-react        │
+│  钱包连接层    Wallet Standard 兼容钱包（如 Sui Wallet 等） │
 │                                                    │
 └──────────────────────────────────────────────────┘
 ```
@@ -45,10 +45,10 @@
 | 层 | 技术 | 用途 |
 |---|------|-----|
 | 合约 | Sui Move | 链上逻辑、对象模型 |
-| SDK | `@mysten/sui` | 交易构造、RPC 调用、BCS 编码 |
+| SDK | `@mysten/sui` | 交易构造、链上查询（gRPC / JSON-RPC）、BCS 编码 |
 | 前端框架 | React + Vite | UI 渲染、路由管理 |
-| dApp 工具包 | `@mysten/dapp-kit` | 钱包连接、hooks、查询 |
-| 脚手架 | `@mysten/create-dapp` | 快速初始化项目 |
+| dApp 工具包 | `@mysten/dapp-kit-react`（非 React 见 `@mysten/dapp-kit-core`） | 钱包连接、hooks、查询缓存（常配 `@tanstack/react-query`） |
+| 脚手架 | `npm create @mysten/dapp`（npm 包 **`@mysten/create-dapp`**） | 快速初始化带合约与前端模板的项目 |
 
 ### 为什么选择 Sui？
 
@@ -137,7 +137,8 @@ hero = "0x0"
 
 ```bash
 cd app
-npm create @mysten/dapp
+npm create @mysten/dapp@latest
+# 等价于使用官方脚手架包 @mysten/create-dapp；若 npm 提示包名变更，以 npmjs 上 Mysten 文档为准。
 # 选择模板，填写项目名称
 cd <app-name>
 pnpm install

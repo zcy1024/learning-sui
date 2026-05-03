@@ -2,6 +2,8 @@
 
 本章将指导你从零搭建完整的 Sui Move 开发环境，包括 CLI 工具、IDE 配置、钱包创建和网络连接。**Move 2024 Edition 的完整语法对照与 `Move.toml` 约定**集中在[第六章 §6.11](../06_move_intermediate/11-move-2024.md)，避免入门阶段信息过载；前三章只需跟示例能 **`sui move build`** 即可。
 
+使用 AI 辅助编写或重构本书同款 Move / TypeScript / 前端代码时，建议同时打开仓库内 **`.claude/skills/sui-dev-skills/`** 下对应 `SKILL.md`（与 Mysten [sui-dev-skills](https://github.com/MystenLabs/sui-dev-skills) 约定对齐），可减少与正文示例不一致的旧 API（例如已废弃的 `@mysten/dapp-kit` 三 Provider 结构）。
+
 ## 本章内容
 
 | 节 | 主题 | 你将学到 |

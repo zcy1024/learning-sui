@@ -27,6 +27,12 @@
 
 **命令与版本**：书中命令以当前稳定 Sui CLI 为准；`Move.toml` 的 `edition` 与依赖 `rev` 若与本地不一致，请先对齐[第二章](02_getting_started/00-index.md)（环境）与[第六章 §6.11](06_move_intermediate/11-move-2024.md)（Edition 与 Framework 约定），或仓库根说明。
 
+## 章号与目录侧栏
+
+本书**没有单独的「第七章」**：**语言篇**在目录上为**第 4、5、6、8 章**（中间跳过的号码留给历史排版与「进阶语言特性」在侧栏上的分组感）；**Move 宏函数**单独成篇，为**第十一章**（文件夹 `11_move_macros/`，紧接第十章、第十二章之前）。第六章 §6.8 仅为宏的**导读**；系统讲解见第十一章。若你从其他教材习惯「第 7 章讲宏」，请以本书**侧栏章号**为准。
+
+**AI 辅助写书内示例代码**：仓库根目录附带 [Sui Dev Skills](https://github.com/MystenLabs/sui-dev-skills) 的镜像约定，路径为 **`.claude/skills/sui-dev-skills/`**（含 Move、TypeScript SDK、前端子技能）。在 Cursor / Claude 中加载这些 `SKILL.md` 可与正文示例保持同一套 Clever Error、dApp Kit、gRPC 客户端等约定。
+
 ## 各章导读
 
 以下按章概述，便于你把目录当作「路线图」使用（章号与本书页首目录一致）。**仓库路径**：`src/` 下主文件夹与章号对应——例如宏函数为 `11_move_macros/`（书中**第十一章**）、`12_programmability/`（**第十二章**）、`15_tokens/`（**第十五章** 代币）；第 1–6 章为 `01_`…`06_`。正文标题与下表以「第 × 章」为准。

@@ -1,6 +1,6 @@
 [package]
 name = "ch01_stub"
-edition = "2024.beta"
+edition = "2024"
 
 [addresses]
 ch01_stub = "0x0"

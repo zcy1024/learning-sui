@@ -1,5 +1,5 @@
 {
-  "name": "learning-sui-ch16-scripts",
+  "name": "learning-sui-ch18-scripts",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "bump-template": "tsx call-bump-template.ts"
   },
   "dependencies": {
-    "@mysten/sui": "^2.15.0"
+    "@mysten/sui": "^2.16.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

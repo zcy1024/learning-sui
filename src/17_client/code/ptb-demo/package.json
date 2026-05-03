@@ -9,7 +9,7 @@
     "dynamic": "tsx src/dynamic-fields.ts"
   },
   "dependencies": {
-    "@mysten/sui": "^2.15.0"
+    "@mysten/sui": "^2.16.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

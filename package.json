@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/hoh-zone/learning-sui#readme",
   "devDependencies": {
-    "highlight.js": "^10.7.3"
+    "highlight.js": "^11.10.0"
   }
 }

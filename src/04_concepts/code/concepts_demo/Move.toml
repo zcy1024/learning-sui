@@ -1,6 +1,6 @@
 [package]
 name = "concepts_demo"
-edition = "2024.beta"
+edition = "2024"
 
 [addresses]
 concepts_demo = "0x0"

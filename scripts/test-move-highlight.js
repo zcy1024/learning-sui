@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 校验 theme/move-hljs.js 与 npm 包 highlight.js@10.x（与 mdBook 内置 hljs 大版本一致）兼容。
+ * 校验 theme/move-hljs.js 与 npm 包 highlight.js@11.x 兼容（mdBook 内置 hljs 版本可能不同，本脚本以 package.json 为准）。
  * 用法：在仓库根目录执行 `npm install` 后：`node scripts/test-move-highlight.js`
  */
 const path = require('path');
