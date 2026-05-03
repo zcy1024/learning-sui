@@ -122,7 +122,7 @@
 |------|------|------|
 | 对象 | Object | Sui 的基本存储单元，具有全局唯一 ID |
 | 对象 ID | Object ID | 对象的唯一标识符（32 字节地址） |
-| 一次性见证 | One-Time Witness (OTW) | 只在 `init` 函数中创建一次的特殊类型，用于初始化 |
+| 一次性见证 | One-Time Witness (OTW) | 只在 `init` 中注入一次；类型须 `has drop`、与模块同名大写、**无字段或仅一个 `bool` 字段** |
 | Owned Object | Owned Object | 归特定地址所有的对象 |
 
 ## P

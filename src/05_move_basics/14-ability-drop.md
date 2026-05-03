@@ -160,7 +160,7 @@ fun init(witness: OTW_EXAMPLE) {
 }
 ```
 
-OTW 的命名规则：类型名必须与模块名相同（全大写），且结构体只有 `drop` 能力、没有字段。
+OTW 的命名规则：类型名必须与模块名相同（全大写），且结构体只有 `drop` 能力；字段须为 **空**，或 **恰好一个 `bool` 字段**（详见[第十一章 · OTW](../11_patterns/03-one-time-witness.md)）。
 
 ## 条件 drop
 

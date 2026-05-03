@@ -85,7 +85,7 @@ public fun add_item(_: &ShopOwnerCap, shop: &mut Shop) {
 
 ### OTW 类型规则
 
-OTW 类型必须满足以下条件：
+OTW 类型必须满足以下条件（与字节码验证器及 `sui::types::is_one_time_witness` 一致；字段规则见 [第十一章 · OTW](../11_patterns/03-one-time-witness.md)）：
 
 - 以模块名命名，全部大写（如模块名为 `shop`，则 OTW 类型为 `SHOP`）
 - 只有 `drop` 能力（`has drop`）
@@ -95,7 +95,7 @@ OTW 类型必须满足以下条件：
 ```move
 module examples::shop_otw;
 
-/// OTW：以模块名大写命名，只有 drop 能力，没有字段
+/// OTW：以模块名大写命名，只有 drop 能力；字段须为「无」或「单个 bool」
 public struct SHOP_OTW has drop {}
 
 fun init(otw: SHOP_OTW, ctx: &mut TxContext) {

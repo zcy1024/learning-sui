@@ -6,22 +6,24 @@
 
 ## OTW 的定义规则
 
-要让一个类型成为合法的 OTW，必须满足以下**全部条件**：
+要让一个类型成为合法的 OTW，必须满足以下**全部条件**（以当前 Sui 工具链与字节码校验为准；细节见 MystenLabs/sui 仓库中的 **`one_time_witness` 校验**与 **`sui::types::is_one_time_witness` native** 实现，例如 [`sui-move-natives/src/types.rs` 中 `is_otw_struct`](https://github.com/MystenLabs/sui/blob/main/sui-execution/latest/sui-move-natives/src/types.rs)）：
 
 1. **名称为模块名的大写形式**：如模块名为 `my_token`，则 OTW 类型名必须为 `MY_TOKEN`
 2. **只有 `drop` 能力**：不能有 `copy`、`key`、`store` 等其他能力
-3. **没有任何字段**：必须是空结构体
+3. **字段数受限**：**零个字段**（空结构体），**或恰好一个字段且该字段类型为 `bool`**（字段名任意）。**不允许**出现 `u64`、`address`、嵌套结构体等其它字段布局。
 4. **不是泛型**：不能有类型参数
 
 ```move
 module examples::my_token;
 
-/// 合法的 OTW：
+/// 合法 OTW 形态一：零字段（本书多数示例采用这种写法）
 /// ✅ 名称 = 模块名大写 (my_token → MY_TOKEN)
 /// ✅ 只有 drop 能力
-/// ✅ 没有字段
 /// ✅ 不是泛型
 public struct MY_TOKEN has drop {}
+
+/// 合法 OTW 形态二：单个 bool 字段（历史与实现均支持；字段名可自取）
+public struct MY_TOKEN_ALT has drop { marker: bool }
 ```
 
 以下是一些**不合法**的 OTW 示例：
@@ -35,11 +37,14 @@ public struct TOKEN has drop {}
 /// ❌ 有额外能力
 public struct BAD_OTW has drop, copy {}
 
-/// ❌ 有字段
-public struct BAD_OTW2 has drop { value: u64 }
+/// ❌ 两个字段
+public struct BAD_OTW2 has drop { a: bool, b: bool }
+
+/// ❌ 单个字段但不是 bool
+public struct BAD_OTW3 has drop { value: u64 }
 
 /// ❌ 是泛型
-public struct BAD_OTW3<T> has drop {}
+public struct BAD_OTW4<T> has drop {}
 ```
 
 ## 系统如何提供 OTW
@@ -95,11 +100,7 @@ fun init(otw: MY_TOKEN, ctx: &mut TxContext) {
 }
 ```
 
-`is_one_time_witness` 会检查：
-
-1. 该类型是否只有 `drop` 能力
-2. 该类型是否没有字段
-3. 该类型名称是否与模块名大写匹配
+`is_one_time_witness` 在链上由 **native** 实现，用来判断「当前这个**值**是否按 OTW 规则由运行时注入、且类型形状合法」。**字段形状**在生态与验证器中的共识是：**无字段**，或 **恰好一个 `bool` 字段**（见 MystenLabs/sui [Issue #5842](https://github.com/MystenLabs/sui/issues/5842) 等对 OTW 条件的归纳）。公开源码里 [`types.rs` 的 `is_otw_struct`](https://github.com/MystenLabs/sui/blob/main/sui-execution/latest/sui-move-natives/src/types.rs) 对 **「模块名大写 + 单 `bool` 字段」** 有显式布局匹配；**零字段** OTW（如本书 `SILVER()` / `MY_TOKEN {}`）在发布流程中同样常见——若你对某种写法的返回值有疑问，应以当前 **`sui move test`** 为准。
 
 许多 Sui 框架函数（如 **`coin_registry::new_currency_with_otw`**）内部都会调用此检查，确保传入的确实是 OTW。
 
@@ -199,6 +200,7 @@ fun init(otw: SINGLETON, ctx: &mut TxContext) {
 | 创建方式 | 系统自动传入 init | 手动构造 |
 | 命名要求 | 必须是模块名大写 | 无特殊要求 |
 | 能力限制 | 只能有 drop | 无限制（通常有 drop） |
+| 字段 | 无字段，或恰好一个 `bool` 字段 | 无此限制 |
 | 用途 | 全局唯一初始化 | 类型级别授权 |
 
 ## 常见错误
@@ -245,4 +247,4 @@ fun init(_otw: FORGOT, ctx: &mut TxContext) {
 
 ## 小结
 
-一次性见证（OTW）是 Sui 生态中的核心模式，它利用系统级保证实现了真正的"只执行一次"语义。OTW 必须满足严格的定义规则：模块名大写、仅有 `drop` 能力、无字段、非泛型。它的主要用途包括代币创建、Publisher 声明以及全局唯一初始化。理解 OTW 对于使用 Sui 框架的高级功能至关重要——几乎所有需要"一次性初始化"的场景都依赖于这一模式。
+一次性见证（OTW）是 Sui 生态中的核心模式，它利用系统级保证实现了真正的「只执行一次」语义。OTW 必须满足严格的定义规则：模块名大写、仅有 `drop` 能力、**零字段或单个 `bool` 字段**、非泛型。它的主要用途包括代币创建、Publisher 声明以及全局唯一初始化。理解 OTW 对于使用 Sui 框架的高级功能至关重要——几乎所有需要一次性初始化的场景都依赖于这一模式。
