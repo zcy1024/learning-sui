@@ -74,44 +74,36 @@ fun division_by_zero() {
 }
 ```
 
-### 指定中止码
+### 指定失败（不写 `abort_code`）
 
-通过指定期望的 abort code 确保函数因正确的原因失败：
+对 **`#[error]`** 常量触发的失败，**推荐**只写 **`#[test, expected_failure]`**，**不要**填写 `abort_code`：Clever Error 的数值编码会随源码行变化，硬编码会导致脆弱测试。若需区分「必须是哪一种失败」，应拆成**不同入口函数**或不同测试数据路径，而不是比对中止码数值。
 
 ```move
 module book::errors;
 
-const EInvalidInput: u64 = 1;
-const ENotFound: u64 = 2;
-
+#[error]
+const EInvalidInput: vector<u8> = b"invalid input";
 public fun validate(x: u64) {
     assert!(x > 0, EInvalidInput);
 }
 
-#[test, expected_failure(abort_code = EInvalidInput)]
+#[test, expected_failure]
 fun validate_zero_fails() {
     validate(0); // 以 EInvalidInput 中止——测试通过
 }
-
-#[test, expected_failure(abort_code = ENotFound)]
-fun wrong_error_code() {
-    validate(0); // 以 EInvalidInput 中止而非 ENotFound——测试失败
-}
 ```
 
-### 指定中止位置
+### 指定中止位置（高级）
 
-使用 `location` 指定 abort 应发生在哪个模块中：
+仍可使用 `location` 等属性约束 abort 发生位置；与 Clever Error 搭配时，同样**避免**把 `abort_code` 绑死到具体整数。示例（仅示意）：
 
 ```move
-#[test, expected_failure(abort_code = EInvalidInput, location = book::errors)]
-fun abort_location() {
-    validate(0);
-}
+#[error]
+const EPanic: vector<u8> = b"test panic";
 
-#[test, expected_failure(abort_code = 1, location = Self)]
+#[test, expected_failure]
 fun abort_in_self() {
-    abort 1
+    abort EPanic
 }
 ```
 
@@ -190,6 +182,6 @@ public fun create_test_scenario(): u64 { 42 }
 ## 小结
 
 - 使用 `#[test]` 标注测试函数，`sui move test` 运行所有测试
-- `#[expected_failure]` 用于验证代码是否正确地 abort，可指定 abort code 和 location
+- `#[expected_failure]` 用于验证代码是否正确地 abort；配合 **`#[error]`** 时优先**不写** `abort_code`，必要时再考虑 `location` 等约束
 - `#[test_only]` 标记仅在测试模式下编译的代码，适合放置辅助函数和导入
 - 通过过滤字符串可精确运行特定测试，CLI 提供覆盖率、统计等丰富选项

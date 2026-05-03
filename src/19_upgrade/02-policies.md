@@ -184,9 +184,10 @@ module my_protocol::timelock_upgrade;
 use sui::package::UpgradeCap;
 use sui::clock::Clock;
 
-const ETimelockNotExpired: u64 = 0;
-const ENoProposal: u64 = 1;
-
+#[error]
+const ETimelockNotExpired: vector<u8> = b"timelock not expired";
+#[error]
+const ENoProposal: vector<u8> = b"no proposal";
 /// 24 小时冷却期
 const TIMELOCK_DURATION_MS: u64 = 86_400_000;
 
@@ -257,10 +258,12 @@ module my_protocol::multisig_upgrade;
 
 use sui::package::UpgradeCap;
 
-const ENotApprover: u64 = 0;
-const EAlreadyApproved: u64 = 1;
-const ENotEnoughApprovals: u64 = 2;
-
+#[error]
+const ENotApprover: vector<u8> = b"not approver";
+#[error]
+const EAlreadyApproved: vector<u8> = b"already approved";
+#[error]
+const ENotEnoughApprovals: vector<u8> = b"not enough approvals";
 /// 需要 3/5 管理员同意
 const REQUIRED_APPROVALS: u64 = 3;
 
@@ -330,9 +333,10 @@ use sui::coin::Coin;
 use sui::balance::{Self, Balance};
 use sui::clock::Clock;
 
-const EVotingNotEnded: u64 = 0;
-const EVoteNotPassed: u64 = 1;
-
+#[error]
+const EVotingNotEnded: vector<u8> = b"voting not ended";
+#[error]
+const EVoteNotPassed: vector<u8> = b"vote not passed";
 /// 投票持续 7 天
 const VOTING_DURATION_MS: u64 = 604_800_000;
 /// 需要 > 50% 赞成票

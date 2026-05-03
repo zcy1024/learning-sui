@@ -99,8 +99,8 @@ public struct Card has drop {
     rides: u64,
 }
 
-const ENoRides: u64 = 0;
-
+#[error]
+const ENoRides: vector<u8> = b"no rides";
 // 购买：返回拥有的 Card
 public fun purchase(): Card {
     Card { rides: 5 }

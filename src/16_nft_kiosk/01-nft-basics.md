@@ -159,8 +159,8 @@ public struct Collection has key {
     max_supply: u64,
 }
 
-const EMaxSupplyReached: u64 = 1;
-
+#[error]
+const EMaxSupplyReached: vector<u8> = b"max supply reached";
 public fun mint_from_collection(
     collection: &mut Collection,
     ctx: &mut TxContext,

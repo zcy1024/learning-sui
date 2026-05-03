@@ -13,9 +13,10 @@ module hero::hero;
 
 use std::string::String;
 
-const EAlreadyEquipedWeapon: u64 = 1;
-const ENotEquipedWeapon: u64 = 2;
-
+#[error]
+const EAlreadyEquipedWeapon: vector<u8> = b"already equiped weapon";
+#[error]
+const ENotEquipedWeapon: vector<u8> = b"not equiped weapon";
 /// 英雄 NFT：拥有名字、耐力值和可选武器
 public struct Hero has key, store {
     id: UID,
@@ -235,7 +236,7 @@ fun equip_unequip_weapon() {
     destroy(weapon);
 }
 
-#[test, expected_failure(abort_code = EAlreadyEquipedWeapon)]
+#[test, expected_failure]
 fun double_equip_fails() {
     let mut ctx = tx_context::dummy();
     let mut hero = Hero {

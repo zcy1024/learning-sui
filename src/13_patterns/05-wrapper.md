@@ -105,8 +105,8 @@ public fun new<T>(max_size: u64): BoundedVec<T> {
     }
 }
 
-const EReachedBound: u64 = 0;
-
+#[error]
+const EReachedBound: vector<u8> = b"reached bound";
 public fun push<T>(bv: &mut BoundedVec<T>, item: T) {
     assert!(bv.inner.length() < bv.max_size, EReachedBound);
     bv.inner.push_back(item);
@@ -183,8 +183,8 @@ Wrapper 模式在对象层面同样强大。通过将一个对象包装在另一
 ```move
 module examples::guarded;
 
-const ECannotUnlock: u64 = 0;
-
+#[error]
+const ECannotUnlock: vector<u8> = b"cannot unlock";
 /// 将任意可存储类型包装为带时间锁的对象
 public struct Locked<T: store> has key {
     id: UID,
@@ -243,8 +243,8 @@ public fun protect<T: store>(
     transfer::share_object(protected);
 }
 
-const ENotAuthorized: u64 = 0;
-
+#[error]
+const ENotAuthorized: vector<u8> = b"not authorized";
 /// 判断是否为授权用户
 fun check_auth(authorized_users: &vector<address>, user: address) {
     assert!(authorized_users.contains(&user), ENotAuthorized);

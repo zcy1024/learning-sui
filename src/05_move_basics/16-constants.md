@@ -36,10 +36,14 @@ const DEFAULT_TIMEOUT: u64 = 5000;
 const BASE_URL: vector<u8> = b"https://api.sui.io";
 
 // 错误码常量：E 前缀 + 驼峰命名
-const ENotAuthorized: u64 = 0;
-const EInsufficientBalance: u64 = 1;
-const EItemNotFound: u64 = 2;
-const EExceedsMaxSupply: u64 = 3;
+#[error]
+const ENotAuthorized: vector<u8> = b"not authorized";
+#[error]
+const EInsufficientBalance: vector<u8> = b"insufficient balance";
+#[error]
+const EItemNotFound: vector<u8> = b"item not found";
+#[error]
+const EExceedsMaxSupply: vector<u8> = b"exceeds max supply";
 ```
 
 ## 支持的类型
@@ -98,17 +102,19 @@ fun config_getters() {
 
 这种模式在智能合约开发中非常常见，它将常量值的访问控制权保留在定义模块中，同时允许外部读取。
 
-## 错误码常量
+## 用作 `assert!` / `abort` 的 Clever Error 常量
 
-在 Move 中，`assert!` 宏的第二个参数是一个错误码。使用常量定义错误码比直接使用数字更具可读性：
+在 Sui Move 2024 中，推荐为 `assert!` / `abort` 的第二参数使用带 **`#[error]`** 的 **`vector<u8>`** 常量（Clever Errors），由工具链解码为可读信息；**避免**裸 `u64` 魔法数：
 
 ```move
 module book::const_errors;
 
-const ENotOwner: u64 = 0;
-const EInsufficientFunds: u64 = 1;
-const EInvalidAmount: u64 = 2;
-
+#[error]
+const ENotOwner: vector<u8> = b"not owner";
+#[error]
+const EInsufficientFunds: vector<u8> = b"insufficient funds";
+#[error]
+const EInvalidAmount: vector<u8> = b"invalid amount";
 public struct Wallet has drop {
     owner: address,
     balance: u64,
@@ -135,14 +141,14 @@ fun withdraw_ok() {
 }
 
 #[test]
-#[expected_failure(abort_code = ENotOwner)]
+#[expected_failure]
 fun not_owner() {
     let mut wallet = Wallet { owner: @0x1, balance: 1000 };
     withdraw(&mut wallet, 100, @0x2); // 非 owner 调用，触发 abort
 }
 ```
 
-### 错误码命名建议
+### Clever Error 常量命名建议
 
 | 前缀 | 含义 | 示例 |
 |------|------|------|
@@ -205,9 +211,10 @@ const DEFAULT_PRICE: u64 = 100;
 const ADMIN_ADDRESS: address = @0x1;
 const APP_NAME: vector<u8> = b"MyApp";
 
-const ENotAuthorized: u64 = 0;
-const EInsufficientBalance: u64 = 1;
-
+#[error]
+const ENotAuthorized: vector<u8> = b"not authorized";
+#[error]
+const EInsufficientBalance: vector<u8> = b"insufficient balance";
 public fun max_supply(): u64 { MAX_SUPPLY }
 public fun default_price(): u64 { DEFAULT_PRICE }
 
@@ -226,7 +233,7 @@ fun constants_example() {
 }
 
 #[test]
-#[expected_failure(abort_code = ENotAuthorized)]
+#[expected_failure]
 fun unauthorized() {
     check_authorized(@0x99);
 }
@@ -237,10 +244,10 @@ fun unauthorized() {
 常量是 Move 模块中不可变的固定值。本节核心要点：
 
 - **声明语法**：`const NAME: Type = value;`，名称必须大写字母开头
-- **命名规范**：普通常量用 `ALL_CAPS`，错误码用 `EPascalCase`
+- **命名规范**：普通常量用 `ALL_CAPS`；可中止错误用 `EPascalCase`，并加 **`#[error]`**，值为 **`vector<u8>`** 可读消息
 - **支持的类型**：`bool`、整数类型、`address`、`vector<u8>`
 - **模块私有**：常量只在定义模块内可见，通过公开函数暴露给外部
 - **配置模式**：使用 `public fun xxx(): Type { CONSTANT }` 暴露常量值
-- **错误码**：使用 `E` 前缀命名，配合 `assert!` 进行条件检查
+- **Clever Errors**：`#[error] const E…: vector<u8> = b"…";`，在 `assert!` / `abort` 中引用
 - **存储方式**：编译时嵌入字节码，每次使用时复制
 - **不可变性**：定义后无法修改，需要可变状态请使用链上对象

@@ -104,8 +104,8 @@ module weather::weather;
 use nautilus::enclave::Enclave;
 
 const WEATHER_INTENT: u8 = 0;
-const EInvalidSignature: u64 = 0;
-
+#[error]
+const EInvalidSignature: vector<u8> = b"invalid signature";
 /// 天气响应数据（必须与 Rust 端 BCS 序列化完全匹配）
 public struct WeatherResponse has drop {
     location: String,

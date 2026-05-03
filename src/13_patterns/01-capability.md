@@ -16,8 +16,8 @@ Capability 是一个被特定账户拥有的对象，它的存在本身就代表
 
 ```move
 const ADMIN: address = @0xABC;
-const ENotAdmin: u64 = 0;
-
+#[error]
+const ENotAdmin: vector<u8> = b"not admin";
 public fun admin_only(ctx: &TxContext) {
     assert!(ctx.sender() == ADMIN, ENotAdmin);
     // 执行操作...

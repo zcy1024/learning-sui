@@ -107,8 +107,8 @@ module examples::token_factory;
 
 use std::string::String;
 
-const ENotEnough: u64 = 0;
-
+#[error]
+const ENotEnough: vector<u8> = b"not enough";
 /// 泛型代币 - 由 Witness 决定类型
 public struct Token<phantom T> has key, store {
     id: UID,

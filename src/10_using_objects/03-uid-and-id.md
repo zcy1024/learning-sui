@@ -120,7 +120,7 @@ public fun id_operations(ctx: &mut TxContext) {
     // ID -> address
     let addr_from_id: address = id.to_address();
 
-    assert!(addr_from_uid == addr_from_id, 0);
+    assert!(addr_from_uid == addr_from_id);
 
     uid.delete();
 }

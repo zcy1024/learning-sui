@@ -90,10 +90,12 @@ module examples::whitelist;
 use sui::vec_set::{Self, VecSet};
 use sui::event;
 
-const EOverMaxSize: u64 = 0;
-const EAlreadyContains: u64 = 1;
-const ENotContains: u64 = 2;
-
+#[error]
+const EOverMaxSize: vector<u8> = b"over max size";
+#[error]
+const EAlreadyContains: vector<u8> = b"already contains";
+#[error]
+const ENotContains: vector<u8> = b"not contains";
 public struct WhitelistUpdated has copy, drop {
     added: bool,
     addr: address,
@@ -181,8 +183,8 @@ module examples::config_map;
 use sui::vec_map::{Self, VecMap};
 use std::string::String;
 
-const ENotAdmin: u64 = 0;
-
+#[error]
+const ENotAdmin: vector<u8> = b"not admin";
 public struct AppConfig has key {
     id: UID,
     settings: VecMap<String, String>,
@@ -345,8 +347,8 @@ public fun create(creator: address, ctx: &mut TxContext) {
     });
 }
 
-const ENotAdmin: u64 = 0;
-
+#[error]
+const ENotAdmin: vector<u8> = b"not admin";
 public fun add_admin(ac: &mut AccessControl, new_admin: address, ctx: &TxContext) {
     assert!(ac.admins.contains(&ctx.sender()), ENotAdmin);
     ac.admins.insert(new_admin);

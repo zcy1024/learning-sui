@@ -13,10 +13,12 @@
 ```move
 module my_protocol::version_manager;
 
-const EInvalidPackageVersion: u64 = 0;
-const EProtocolPaused: u64 = 1;
-const EVersionMismatch: u64 = 2;
-
+#[error]
+const EInvalidPackageVersion: vector<u8> = b"invalid package version";
+#[error]
+const EProtocolPaused: vector<u8> = b"protocol paused";
+#[error]
+const EVersionMismatch: vector<u8> = b"version mismatch";
 /// 包级版本常量
 /// V1 中值为 1，V2 升级后改为 2
 const CURRENT_VERSION: u64 = 1;
@@ -129,6 +131,9 @@ module my_protocol::pool;
 
 use my_protocol::version_check;
 
+#[error]
+const EPoolInactive: vector<u8> = b"pool: inactive";
+
 public struct SharedPool<phantom T0, phantom T1> has key {
     id: UID,
     version: u64,         // 每个池有自己的版本
@@ -155,7 +160,7 @@ public fun deposit<T0, T1>(
     amount_t1: u64,
 ) {
     version_check::assert_pool_version(pool.version);
-    assert!(pool.is_active, 0);
+    assert!(pool.is_active, EPoolInactive);
 
     pool.balance_t0 = pool.balance_t0 + amount_t0;
     pool.balance_t1 = pool.balance_t1 + amount_t1;
@@ -196,8 +201,8 @@ public fun migrate_registry(registry: &mut SharedRegistry) {
 ```move
 module my_protocol::version_check;
 
-const ENotSupportedObjectVersion: u64 = 0;
-
+#[error]
+const ENotSupportedObjectVersion: vector<u8> = b"not supported object version";
 const CURRENT_VERSION: u64 = 1;
 
 public fun current_version(): u64 {

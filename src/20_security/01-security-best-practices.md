@@ -56,8 +56,8 @@ public fun mint(
 ```move
 module admin_action::acl;
 
-const ENotAdmin: u64 = 0;
-
+#[error]
+const ENotAdmin: vector<u8> = b"not admin";
 public struct AccessControlList has key {
     id: UID,
     admins: vector<address>,
@@ -211,9 +211,12 @@ public fun return_scroll(
 ### 全面的参数检查
 
 ```move
-const EInvalidName: u64 = 1;
-const EInvalidStamina: u64 = 2;
-const EInvalidAttack: u64 = 3;
+#[error]
+const EInvalidName: vector<u8> = b"invalid name";
+#[error]
+const EInvalidStamina: vector<u8> = b"invalid stamina";
+#[error]
+const EInvalidAttack: vector<u8> = b"invalid attack";
 const MAX_STAMINA: u64 = 1000;
 const MAX_ATTACK: u64 = 500;
 
@@ -239,8 +242,8 @@ public fun create_hero(
 ### 整数溢出保护
 
 ```move
-const EOverflow: u64 = 10;
-
+#[error]
+const EOverflow: vector<u8> = b"overflow";
 public fun safe_add(a: u64, b: u64): u64 {
     let result = a + b;
     assert!(result >= a, EOverflow); // 检查溢出

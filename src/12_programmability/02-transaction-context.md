@@ -193,6 +193,11 @@ public fun place_order(
 ```move
 module examples::owner_check;
 
+#[error]
+const ENotOwner: vector<u8> = b"vault: not owner";
+#[error]
+const EInsufficientBalance: vector<u8> = b"vault: insufficient balance";
+
 public struct Vault has key {
     id: UID,
     owner: address,
@@ -214,8 +219,8 @@ public fun deposit(vault: &mut Vault, amount: u64) {
 
 /// 只有 owner 可以提取
 public fun withdraw(vault: &mut Vault, amount: u64, ctx: &TxContext): u64 {
-    assert!(vault.owner == ctx.sender(), 0);
-    assert!(vault.balance >= amount, 1);
+    assert!(vault.owner == ctx.sender(), ENotOwner);
+    assert!(vault.balance >= amount, EInsufficientBalance);
     vault.balance = vault.balance - amount;
     amount
 }

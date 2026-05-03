@@ -232,9 +232,10 @@ module examples::backpack;
 
 use std::string::String;
 
-const EBackpackFull: u64 = 0;
-const EItemNotFound: u64 = 1;
-
+#[error]
+const EBackpackFull: vector<u8> = b"backpack full";
+#[error]
+const EItemNotFound: vector<u8> = b"item not found";
 public struct Item has key, store {
     id: UID,
     name: String,

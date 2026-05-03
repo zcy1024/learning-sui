@@ -138,9 +138,10 @@ public struct MintCap has key {
     max_supply: u64,
 }
 
-const EExceedsMaxPerMint: u64 = 1;
-const EExceedsMaxSupply: u64 = 2;
-
+#[error]
+const EExceedsMaxPerMint: vector<u8> = b"exceeds max per mint";
+#[error]
+const EExceedsMaxSupply: vector<u8> = b"exceeds max supply";
 fun init(otw: REWARD_TOKEN, ctx: &mut TxContext) {
     let (initializer, treasury_cap) = coin_registry::new_currency_with_otw<REWARD_TOKEN>(
         otw, 9,

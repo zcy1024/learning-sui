@@ -105,8 +105,8 @@ fun divide_zero_by_nonzero() {
 ```move
 module book::error_conditions;
 
-const EInsufficientBalance: u64 = 1;
-
+#[error]
+const EInsufficientBalance: vector<u8> = b"insufficient balance";
 public struct Wallet has copy, drop { balance: u64 }
 
 public fun withdraw(wallet: &mut Wallet, amount: u64) {
@@ -124,7 +124,7 @@ fun withdraw_succeeds_with_sufficient_balance() {
     assert_eq!(wallet.balance, 50);
 }
 
-#[test, expected_failure(abort_code = EInsufficientBalance)]
+#[test, expected_failure]
 fun withdraw_fails_with_insufficient_balance() {
     let mut wallet = Wallet { balance: 50 };
     wallet.withdraw(100);

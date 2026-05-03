@@ -74,8 +74,8 @@ Sui 框架提供了 `sui::types::is_one_time_witness` 函数来验证一个值�
 ```move
 module examples::my_token;
 
-const ENotOneTimeWitness: u64 = 0;
-
+#[error]
+const ENotOneTimeWitness: vector<u8> = b"not one time witness";
 public struct MY_TOKEN has drop {}
 
 fun init(otw: MY_TOKEN, ctx: &mut TxContext) {
@@ -167,8 +167,8 @@ fun init(otw: MY_NFT, ctx: &mut TxContext) {
 ```move
 module examples::singleton;
 
-const ENotOneTimeWitness: u64 = 0;
-
+#[error]
+const ENotOneTimeWitness: vector<u8> = b"not one time witness";
 public struct SINGLETON has drop {}
 
 public struct GlobalConfig has key {

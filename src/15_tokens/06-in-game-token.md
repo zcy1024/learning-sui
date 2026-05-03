@@ -166,8 +166,8 @@ public struct Exchange<phantom CoinA, phantom CoinB> has key {
     rate_b_to_a: u64,
 }
 
-const EInsufficientReserve: u64 = 1;
-
+#[error]
+const EInsufficientReserve: vector<u8> = b"insufficient reserve";
 /// 创建兑换池
 public fun create_exchange<CoinA, CoinB>(
     initial_a: Coin<CoinA>,
@@ -240,8 +240,8 @@ public struct RewardPool<phantom T> has key {
     max_distribution: u64,
 }
 
-const EPoolExhausted: u64 = 1;
-
+#[error]
+const EPoolExhausted: vector<u8> = b"pool exhausted";
 public fun claim_reward<T>(
     pool: &mut RewardPool<T>,
     player: address,

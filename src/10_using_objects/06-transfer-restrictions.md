@@ -189,8 +189,8 @@ module examples::controlled_transfer;
 
 use std::string::String;
 
-const EMaxTransfersReached: u64 = 0;
-
+#[error]
+const EMaxTransfersReached: vector<u8> = b"max transfers reached";
 public struct Ticket has key {
     id: UID,
     event_name: String,

@@ -206,8 +206,8 @@ module examples::bcs_params;
 
 use sui::bcs;
 
-const EMismatchCount: u64 = 0;
-
+#[error]
+const EMismatchCount: vector<u8> = b"mismatch count";
 public fun process_batch_transfer(data: vector<u8>) {
     let mut bcs = bcs::new(data);
     let recipients = bcs.peel_vec!(|bcs| bcs.peel_address());

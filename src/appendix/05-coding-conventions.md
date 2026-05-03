@@ -85,9 +85,7 @@ const ENotAuthorized: vector<u8> = b"Caller is not authorized";
 #[error]
 const EInsufficientBalance: vector<u8> = b"Insufficient balance";
 
-// 历史写法：u64 数值码（存量代码仍常见；新代码优先用上一段）
-const ELegacyCode: u64 = 0;
-
+// 阅读旧仓库时可能仍见：`const EOld: u64 = 1;` + `assert!(cond, EOld)`；新代码请勿新增。
 // 普通常量：ALL_CAPS
 const MAX_SUPPLY: u64 = 10000;
 const MY_CONSTANT: vector<u8> = b"my const";
@@ -329,8 +327,8 @@ app::mint(ctx).destroy();
 ### 使用 assert_eq!
 
 ```move
-// 不推荐：assert! 不显示期望值与实际值
-assert!(result == b"expected_value", 0);
+// 不推荐：assert! 比较失败时不打印两侧值（且无具名 Clever Error）
+assert!(result == b"expected_value");
 
 // 推荐：assert_eq! 失败时打印两侧值（需 use std::unit_test::assert_eq）
 assert_eq!(result, expected_value);

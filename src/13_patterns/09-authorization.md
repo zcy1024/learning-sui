@@ -98,8 +98,8 @@ fun init(otw: MY_MODULE, ctx: &mut TxContext) {
 ```move
 module examples::auth_combined;
 
-const ENotOneTimeWitness: u64 = 0;
-
+#[error]
+const ENotOneTimeWitness: vector<u8> = b"not one time witness";
 /// Capability：管理员权限
 public struct AdminCap has key { id: UID }
 
@@ -160,9 +160,10 @@ use sui::package;
 use sui::display;
 use std::string::String;
 
-const EInactive: u64 = 0;
-const EMaxSupply: u64 = 1;
-
+#[error]
+const EInactive: vector<u8> = b"inactive";
+#[error]
+const EMaxSupply: vector<u8> = b"max supply";
 /// OTW - 用于初始化
 public struct NFT_PROJECT has drop {}
 

@@ -249,8 +249,8 @@ use sui::coin::{Self, Coin};
 use sui::sui::SUI;
 use sui::balance::Balance;
 
-const EInsufficientBalance: u64 = 0;
-
+#[error]
+const EInsufficientBalance: vector<u8> = b"insufficient balance";
 /// Move 中的提款——天然安全，无需特殊防护
 public fun withdraw(vault: &mut Vault, amount: u64, ctx: &mut TxContext): Coin<SUI> {
     assert!(vault.balance >= amount, EInsufficientBalance);

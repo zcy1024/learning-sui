@@ -194,8 +194,8 @@ public struct Registry has key {
     total_count: u64,
 }
 
-const EAlreadyRegistered: u64 = 0;
-
+#[error]
+const EAlreadyRegistered: vector<u8> = b"already registered";
 fun init(ctx: &mut TxContext) {
     let registry = Registry {
         id: object::new(ctx),

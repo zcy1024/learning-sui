@@ -11,8 +11,8 @@ Move 语言中的错误处理机制与大多数编程语言截然不同：它没
 ```move
 module book::abort_basic;
 
-const ENotAllowed: u64 = 0;
-
+#[error]
+const ENotAllowed: vector<u8> = b"not allowed";
 public fun only_positive(value: u64): u64 {
     if (value == 0) {
         abort ENotAllowed
@@ -20,7 +20,7 @@ public fun only_positive(value: u64): u64 {
     value
 }
 
-#[test, expected_failure(abort_code = ENotAllowed)]
+#[test, expected_failure]
 fun abort_on_zero() {
     only_positive(0);
 }
@@ -35,8 +35,8 @@ fun abort_on_zero() {
 ```move
 module book::abort_expr;
 
-const EInvalidChoice: u64 = 0;
-
+#[error]
+const EInvalidChoice: vector<u8> = b"invalid choice";
 public fun describe(choice: u8): vector<u8> {
     if (choice == 1) {
         b"Option A"
@@ -56,7 +56,7 @@ fun describe_ok() {
     assert_eq!(describe(2), b"Option B");
 }
 
-#[test, expected_failure(abort_code = EInvalidChoice)]
+#[test, expected_failure]
 fun describe_fail() {
     assert_eq!(describe(3), b"Option C");
 }
@@ -66,14 +66,15 @@ fun describe_fail() {
 
 ### 基本用法
 
-`assert!` 是一个内置宏，它检查一个布尔条件，如果条件为 `false`，则以给定的错误码中止执行：
+`assert!` 是一个内置宏，它检查一个布尔条件，如果条件为 `false`，则以给定的**具名 Clever Error 常量**（推荐）或历史写法中的中止值中止执行：
 
 ```move
 module book::assert_basic;
 
-const ENotAuthorized: u64 = 0;
-const EInvalidAmount: u64 = 1;
-
+#[error]
+const ENotAuthorized: vector<u8> = b"not authorized";
+#[error]
+const EInvalidAmount: vector<u8> = b"invalid amount";
 public fun transfer_tokens(
     sender: address,
     admin: address,
@@ -89,12 +90,12 @@ fun valid_transfer() {
     transfer_tokens(@0x1, @0x1, 100);
 }
 
-#[test, expected_failure(abort_code = ENotAuthorized)]
+#[test, expected_failure]
 fun not_authorized() {
     transfer_tokens(@0x1, @0x2, 100);
 }
 
-#[test, expected_failure(abort_code = EInvalidAmount)]
+#[test, expected_failure]
 fun invalid_amount() {
     transfer_tokens(@0x1, @0x1, 0);
 }
@@ -127,12 +128,16 @@ fun assert_single_arg() {
 ```move
 module book::error_conventions;
 
-const ENotOwner: u64 = 0;
-const EInsufficientBalance: u64 = 1;
-const EItemNotFound: u64 = 2;
-const EAlreadyExists: u64 = 3;
-const EExpired: u64 = 4;
-
+#[error]
+const ENotOwner: vector<u8> = b"not owner";
+#[error]
+const EInsufficientBalance: vector<u8> = b"insufficient balance";
+#[error]
+const EItemNotFound: vector<u8> = b"item not found";
+#[error]
+const EAlreadyExists: vector<u8> = b"already exists";
+#[error]
+const EExpired: vector<u8> = b"expired";
 public fun check_owner(caller: address, owner: address) {
     assert!(caller == owner, ENotOwner);
 }
@@ -196,10 +201,12 @@ fun not_found() {
 ```move
 module book::abort_example;
 
-const ENotAuthorized: u64 = 0;
-const EInvalidAmount: u64 = 1;
-const EInsufficientBalance: u64 = 2;
-
+#[error]
+const ENotAuthorized: vector<u8> = b"not authorized";
+#[error]
+const EInvalidAmount: vector<u8> = b"invalid amount";
+#[error]
+const EInsufficientBalance: vector<u8> = b"insufficient balance";
 #[error]
 const ECustomError: vector<u8> = b"This is a custom error message";
 
@@ -230,7 +237,7 @@ fun assert_ok() {
     assert_eq!(result, 42);
 }
 
-#[test, expected_failure(abort_code = EInvalidAmount)]
+#[test, expected_failure]
 fun abort_zero() {
     must_be_positive(0);
 }
@@ -248,9 +255,10 @@ fun abort_zero() {
 ```move
 module book::atomic_example;
 
-const EStepOneFailed: u64 = 0;
-const EStepTwoFailed: u64 = 1;
-
+#[error]
+const EStepOneFailed: vector<u8> = b"step one failed";
+#[error]
+const EStepTwoFailed: vector<u8> = b"step two failed";
 public fun multi_step_operation(a: u64, b: u64) {
     // 步骤一
     assert!(a > 0, EStepOneFailed);
@@ -267,7 +275,7 @@ fun success() {
     multi_step_operation(5, 10);
 }
 
-#[test, expected_failure(abort_code = EStepTwoFailed)]
+#[test, expected_failure]
 fun step_two_fails() {
     // 即使步骤一通过了，步骤二失败也会回滚所有变更
     multi_step_operation(5, 3);

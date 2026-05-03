@@ -75,8 +75,8 @@ use hero::blacksmith::Sword;
 use sui::dynamic_field as df;
 use sui::dynamic_object_field as dof;
 
-const EAlreadyEquipedSword: u64 = 1;
-
+#[error]
+const EAlreadyEquipedSword: vector<u8> = b"already equiped sword";
 public fun equip_sword(self: &mut Hero, sword: Sword) {
     if (df::exists_(&self.id, b"sword".to_string())) {
         abort(EAlreadyEquipedSword)
@@ -137,8 +137,10 @@ Display 模板中的 `{field_name}` 会被对象的实际字段值替换：
 提供公开的 mint 入口函数，带参数验证：
 
 ```move
-const ENameTooLong: u64 = 2;
-const EInvalidDamage: u64 = 3;
+#[error]
+const ENameTooLong: vector<u8> = b"name too long";
+#[error]
+const EInvalidDamage: vector<u8> = b"invalid damage";
 const MAX_NAME_LENGTH: u64 = 64;
 
 public fun mint_hero_and_transfer(
@@ -230,7 +232,7 @@ fun mint_and_equip() {
     destroy(hero);
 }
 
-#[test, expected_failure(abort_code = EAlreadyEquipedSword)]
+#[test, expected_failure]
 fun cannot_equip_two_swords() {
     let mut ctx = tx_context::dummy();
     let mut hero = mint_hero(&mut ctx);

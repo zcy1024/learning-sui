@@ -255,8 +255,8 @@ public fun create_receipt(amount: u64): Receipt {
     Receipt { amount, paid: true }
 }
 
-const ENotPaid: u64 = 0;
-
+#[error]
+const ENotPaid: vector<u8> = b"not paid";
 // 必须通过解包来消耗 Receipt
 public fun verify_and_consume(receipt: Receipt): u64 {
     let Receipt { amount, paid } = receipt;

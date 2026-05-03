@@ -66,8 +66,8 @@ IBE 身份 = [packageId] || [id]
 ```move
 module my_package::access;
 
-const ENoAccess: u64 = 0;
-
+#[error]
+const ENoAccess: vector<u8> = b"no access";
 /// 只有指定地址可以解密
 entry fun seal_approve(id: vector<u8>, ctx: &TxContext) {
     let caller_bytes = bcs::to_bytes(&ctx.sender());

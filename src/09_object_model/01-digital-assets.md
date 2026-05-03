@@ -127,6 +127,11 @@ module examples::game_item;
 
 use std::string::String;
 
+#[error]
+const EInvalidRarity: vector<u8> = b"game item: invalid rarity level";
+#[error]
+const ENotCreator: vector<u8> = b"game item: not creator";
+
 /// 稀有度枚举
 public struct Rarity has store, copy, drop {
     level: u8, // 1=普通, 2=稀有, 3=史诗, 4=传说
@@ -148,7 +153,7 @@ public fun mint(
     power: u64,
     ctx: &mut TxContext,
 ): GameItem {
-    assert!(rarity_level >= 1 && rarity_level <= 4, 0);
+    assert!(rarity_level >= 1 && rarity_level <= 4, EInvalidRarity);
     GameItem {
         id: object::new(ctx),
         name,
@@ -160,7 +165,7 @@ public fun mint(
 
 /// 销毁道具（回收），只有创建者可以销毁
 public fun burn(item: GameItem, ctx: &TxContext) {
-    assert!(item.creator == ctx.sender(), 1);
+    assert!(item.creator == ctx.sender(), ENotCreator);
     let GameItem { id, name: _, rarity: _, power: _, creator: _ } = item;
     id.delete();
 }

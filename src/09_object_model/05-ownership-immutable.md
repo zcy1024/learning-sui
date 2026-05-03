@@ -169,6 +169,9 @@ module examples::owned_to_frozen;
 
 use std::string::String;
 
+#[error]
+const EDocumentFinalized: vector<u8> = b"document: already finalized";
+
 public struct Document has key {
     id: UID,
     title: String,
@@ -203,7 +206,7 @@ public fun create_draft(
 
 /// 编辑文档内容（地址所有状态下）
 public fun edit(doc: &mut Document, new_content: String) {
-    assert!(!doc.finalized, 0);
+    assert!(!doc.finalized, EDocumentFinalized);
     doc.content = new_content;
 }
 

@@ -82,8 +82,8 @@ public fun share_pool(pool: Pool) {
 ```move
 module examples::shared_counter;
 
-const ENotCreator: u64 = 0;
-
+#[error]
+const ENotCreator: vector<u8> = b"not creator";
 public struct Counter has key {
     id: UID,
     value: u64,
@@ -134,8 +134,8 @@ public fun destroy(counter: Counter, ctx: &TxContext) {
 ```move
 module examples::shared_deletion;
 
-const ENotCreator: u64 = 0;
-
+#[error]
+const ENotCreator: vector<u8> = b"not creator";
 public struct SharedBox has key {
     id: UID,
     content: vector<u8>,
@@ -287,9 +287,10 @@ public struct Order has store, drop {
 ```move
 module examples::shared_security;
 
-const ENotAdmin: u64 = 0;
-const EInsufficientBalance: u64 = 1;
-
+#[error]
+const ENotAdmin: vector<u8> = b"not admin";
+#[error]
+const EInsufficientBalance: vector<u8> = b"insufficient balance";
 public struct Treasury has key {
     id: UID,
     balance: u64,

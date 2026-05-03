@@ -42,8 +42,8 @@ fun private_only_in_module() {
 ```move
 module book::public_example;
 
-const EInvalid: u64 = 0;
-
+#[error]
+const EInvalid: vector<u8> = b"invalid";
 // 公共函数 —— 任何模块都可以调用
 public fun calculate(a: u64, b: u64): u64 {
     validate(a, b);

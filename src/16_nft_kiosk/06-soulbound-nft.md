@@ -77,9 +77,10 @@ public struct Credential has key {
     expires_at: Option<u64>,
 }
 
-const ENotIssuer: u64 = 1;
-const EAlreadyExpired: u64 = 2;
-
+#[error]
+const ENotIssuer: vector<u8> = b"not issuer";
+#[error]
+const EAlreadyExpired: vector<u8> = b"already expired";
 public struct IssuerCap has key, store {
     id: UID,
     issuer_name: String,

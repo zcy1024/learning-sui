@@ -109,8 +109,10 @@ module king_credits::crown_council_rule;
 use sui::token::{Self, ActionRequest, TokenPolicy, TokenPolicyCap};
 use sui::vec_set::{Self, VecSet};
 
-const EMaxCouncilMembers: u64 = 0;
-const ENotACouncilMember: u64 = 1;
+#[error]
+const EMaxCouncilMembers: vector<u8> = b"max council members";
+#[error]
+const ENotACouncilMember: vector<u8> = b"not a council member";
 const MAX_CROWN_COUNCIL_MEMBERS: u64 = 100;
 
 public struct CrownCouncilRule() has drop;

@@ -177,8 +177,8 @@ module examples::admin_ops;
 use sui::package;
 use std::string::String;
 
-const ENotSameModule: u64 = 0;
-
+#[error]
+const ENotSameModule: vector<u8> = b"not same module";
 public struct Config has key {
     id: UID,
     name: String,
@@ -214,8 +214,8 @@ module examples::combined_auth;
 
 use sui::package;
 
-const ENotSameModule: u64 = 0;
-
+#[error]
+const ENotSameModule: vector<u8> = b"not same module";
 public struct COMBINED_AUTH has drop {}
 
 /// 自定义管理员能力

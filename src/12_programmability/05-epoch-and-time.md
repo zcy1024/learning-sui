@@ -220,6 +220,15 @@ module examples::auction;
 use sui::clock::Clock;
 use sui::event;
 
+#[error]
+const EAuctionAlreadySettled: vector<u8> = b"auction: already settled";
+#[error]
+const EBiddingPeriodEnded: vector<u8> = b"auction: bidding period ended";
+#[error]
+const EBidTooLow: vector<u8> = b"auction: bid too low";
+#[error]
+const EAuctionNotYetEnded: vector<u8> = b"auction: not yet ended";
+
 public struct AuctionCreated has copy, drop {
     auction_id: ID,
     end_time_ms: u64,
@@ -270,9 +279,9 @@ public fun place_bid(
     clock: &Clock,
     ctx: &TxContext,
 ) {
-    assert!(!auction.settled, 0);
-    assert!(clock.timestamp_ms() < auction.end_time_ms, 1);
-    assert!(bid_amount > auction.highest_bid, 2);
+    assert!(!auction.settled, EAuctionAlreadySettled);
+    assert!(clock.timestamp_ms() < auction.end_time_ms, EBiddingPeriodEnded);
+    assert!(bid_amount > auction.highest_bid, EBidTooLow);
 
     auction.highest_bid = bid_amount;
     auction.highest_bidder = ctx.sender();
@@ -285,8 +294,8 @@ public fun place_bid(
 }
 
 public fun settle(auction: &mut Auction, clock: &Clock) {
-    assert!(!auction.settled, 0);
-    assert!(clock.timestamp_ms() >= auction.end_time_ms, 1);
+    assert!(!auction.settled, EAuctionAlreadySettled);
+    assert!(clock.timestamp_ms() >= auction.end_time_ms, EAuctionNotYetEnded);
     auction.settled = true;
 }
 ```
@@ -297,6 +306,9 @@ public fun settle(auction: &mut Auction, clock: &Clock) {
 module examples::cooldown;
 
 use sui::clock::Clock;
+
+#[error]
+const EOnCooldown: vector<u8> = b"player: still on cooldown";
 
 public struct Player has key {
     id: UID,
@@ -317,7 +329,7 @@ public fun create_player(cooldown_ms: u64, ctx: &mut TxContext) {
 
 public fun perform_action(player: &mut Player, clock: &Clock) {
     let now = clock.timestamp_ms();
-    assert!(now >= player.last_action_ms + player.cooldown_ms, 0);
+    assert!(now >= player.last_action_ms + player.cooldown_ms, EOnCooldown);
 
     player.last_action_ms = now;
     player.action_count = player.action_count + 1;

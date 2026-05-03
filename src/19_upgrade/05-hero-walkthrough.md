@@ -78,9 +78,10 @@ use hero_game::hero::Hero;
 const VERSION: u64 = 1;
 const XP_PER_TRAINING: u64 = 50;
 
-const EInvalidPackageVersion: u64 = 0;
-const ENotEnoughXp: u64 = 1;
-
+#[error]
+const EInvalidPackageVersion: vector<u8> = b"invalid package version";
+#[error]
+const ENotEnoughXp: vector<u8> = b"not enough xp";
 public struct TrainingGround has key {
     id: UID,
     version: u64,
@@ -178,10 +179,12 @@ use hero_game::hero::Hero;
 
 const VERSION: u64 = 2;
 
-const EInvalidPackageVersion: u64 = 0;
-const ENotEnoughXp: u64 = 1;
-const EUseTrainV2Instead: u64 = 2;
-
+#[error]
+const EInvalidPackageVersion: vector<u8> = b"invalid package version";
+#[error]
+const ENotEnoughXp: vector<u8> = b"not enough xp";
+#[error]
+const EUseTrainV2Instead: vector<u8> = b"use train v2 instead";
 public struct TrainingGround has key {
     id: UID,
     version: u64,

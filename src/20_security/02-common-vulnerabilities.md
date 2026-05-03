@@ -170,8 +170,8 @@ public fun add_balance(account: &mut Account, amount: u64) {
 **修复**：
 
 ```move
-const EOverflow: u64 = 100;
-
+#[error]
+const EOverflow: vector<u8> = b"overflow";
 public fun add_balance(account: &mut Account, amount: u64) {
     let new_balance = account.balance + amount;
     assert!(new_balance >= account.balance, EOverflow);
@@ -188,8 +188,8 @@ public fun calculate_share(total: u64, divisor: u64): u64 {
 }
 
 // 修复
-const EDivisionByZero: u64 = 101;
-
+#[error]
+const EDivisionByZero: vector<u8> = b"division by zero";
 public fun calculate_share(total: u64, divisor: u64): u64 {
     assert!(divisor > 0, EDivisionByZero);
     total / divisor

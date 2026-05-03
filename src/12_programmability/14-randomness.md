@@ -117,8 +117,8 @@ module examples::lottery;
 
 use sui::random::Random;
 
-const EWithoutParticipant: u64 = 0;
-
+#[error]
+const EWithoutParticipant: vector<u8> = b"without participant";
 public struct Lottery has key {
     id: UID,
     participants: vector<address>,

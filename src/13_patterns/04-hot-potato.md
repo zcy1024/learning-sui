@@ -97,8 +97,8 @@ public fun borrow(
     (coins, receipt)
 }
 
-const EInsufficientRepay: u64 = 0;
-
+#[error]
+const EInsufficientRepay: vector<u8> = b"insufficient repay";
 /// 还款 - 消耗 Hot Potato
 public fun repay(
     pool: &mut LendingPool,
@@ -159,8 +159,8 @@ public fun borrow_item(
     (item, receipt)
 }
 
-const EItemMismatch: u64 = 0;
-
+#[error]
+const EItemMismatch: vector<u8> = b"item mismatch";
 /// 归还物品，消耗凭证
 public fun return_item(
     vault: &mut Vault,
@@ -217,8 +217,8 @@ public fun select_phone(
     }
 }
 
-const EPhoneMismatch: u64 = 0;
-
+#[error]
+const EPhoneMismatch: vector<u8> = b"phone mismatch";
 /// 第三步：付款取货（消耗验货凭证）
 public fun pay_and_collect(
     slip: InspectionSlip,
@@ -265,8 +265,8 @@ public fun fulfill_full(obligation: Obligation) {
     let Obligation { value: _ } = obligation;
 }
 
-const EInvalidPartial: u64 = 0;
-
+#[error]
+const EInvalidPartial: vector<u8> = b"invalid partial";
 /// 路径 B：部分偿还 + 新义务
 public fun fulfill_partial(
     obligation: Obligation,

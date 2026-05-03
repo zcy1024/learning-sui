@@ -2,7 +2,7 @@
 
 本节讲解 Move 合约中的错误处理策略。良好的错误处理不仅能帮助调试，还能向用户提供有意义的反馈。我们将介绍错误码设计、分类策略和三条核心规则。
 
-**与全书一致**：新代码请优先使用 **`#[error]` + `vector<u8>`**（Clever Errors），见[第五章 · 断言与中止](../05_move_basics/19-assert-and-abort.md)。下文仍保留 **`u64` 数值码**的写法与分类策略，因为存量合约、按**整数**做前端映射、以及「稳定可枚举码」场景仍常见；**命名规则（`EPascalCase`）与「一义一码」原则**对两种表示法都适用。
+**与全书一致**：本书正文与示例中的可中止错误**默认采用** **`#[error]` + `vector<u8>`**（Clever Errors），见[第五章 · 断言与中止](../05_move_basics/19-assert-and-abort.md)。**命名规则（`EPascalCase`）与「一义一码」原则**仍适用：每个失败场景对应**单独**的 `#[error]` 常量，消息字符串应简短可读。链外若需映射用户文案，可优先解析工具链返回的**常量名与消息**；仅在对接**旧合约**或遗留系统时，才需维护历史 **`u64` 码表**。
 
 ## Move 中的错误机制
 
@@ -37,8 +37,8 @@ module book::module_a;
 
 use book::module_b;
 
-const ENoField: u64 = 0;
-
+#[error]
+const ENoField: vector<u8> = b"no field";
 public fun do_something() {
     assert!(module_b::has_field(1), ENoField);
     let field_1 = module_b::get_field(1);
@@ -62,10 +62,12 @@ module book::module_a;
 
 use book::module_b;
 
-const ENoFieldA: u64 = 0;
-const ENoFieldB: u64 = 1;
-const ENoFieldC: u64 = 2;
-
+#[error]
+const ENoFieldA: vector<u8> = b"no field a";
+#[error]
+const ENoFieldB: vector<u8> = b"no field b";
+#[error]
+const ENoFieldC: vector<u8> = b"no field c";
 public fun do_something() {
     assert!(module_b::has_field(1), ENoFieldA);
     let field_1 = module_b::get_field(1);
@@ -78,7 +80,7 @@ public fun do_something() {
 }
 ```
 
-现在调用者可以精确定位问题：abort code `0` 表示 "字段 1 不存在"，`1` 表示 "字段 2 不存在"，依此类推。
+现在调用者可以依据**不同的 `#[error]` 常量名与解码后的消息**区分是哪一个 `assert!` 失败（CLI / GraphQL 会展示可读信息），而不再依赖易混淆的裸数字 `0/1/…`。
 
 ### 规则三：返回 bool 而非 assert
 
@@ -88,8 +90,8 @@ public fun do_something() {
 // 不推荐：暴露断言函数
 module book::some_app_assert;
 
-const ENotAuthorized: u64 = 0;
-
+#[error]
+const ENotAuthorized: vector<u8> = b"not authorized";
 public fun do_a() {
     assert_is_authorized();
     // ...
@@ -105,8 +107,8 @@ public fun assert_is_authorized() {
 // 推荐：暴露布尔函数
 module book::some_app;
 
-const ENotAuthorized: u64 = 0;
-
+#[error]
+const ENotAuthorized: vector<u8> = b"not authorized";
 public fun do_a() {
     assert!(is_authorized(), ENotAuthorized);
     // ...
@@ -128,7 +130,7 @@ fun assert_is_authorized() {
 }
 ```
 
-## 错误码设计规范
+## 错误常量设计规范
 
 ### 命名约定
 
@@ -136,63 +138,59 @@ fun assert_is_authorized() {
 
 ```move
 // 正确：EPascalCase
-const ENotAuthorized: u64 = 0;
-const EInsufficientBalance: u64 = 1;
-const EObjectNotFound: u64 = 2;
-
-// 错误：ALL_CAPS 用于普通常量
-const NOT_AUTHORIZED: u64 = 0; // 不推荐
+#[error]
+const ENotAuthorized: vector<u8> = b"not authorized";
+#[error]
+const EInsufficientBalance: vector<u8> = b"insufficient balance";
+#[error]
+const EObjectNotFound: vector<u8> = b"object not found";
+// 错误：错误常量未用 #[error]，且未以 E 前缀命名
+const NOT_AUTHORIZED: vector<u8> = b"bad naming"; // 不推荐
 ```
 
-### 分类编号策略
+### 按功能分组（语义分区）
 
-按模块功能分组分配错误码：
+同一模块内可按**业务域**分组定义错误常量（便于检索与文档化；**不再依赖** `0–9` / `10–19` 这类数值区间）：
 
 ```move
 module my_protocol::marketplace;
 
-// 权限错误：0-9
-const ENotOwner: u64 = 0;
-const ENotAdmin: u64 = 1;
-const ENotApproved: u64 = 2;
-
-// 输入验证错误：10-19
-const EInvalidPrice: u64 = 10;
-const EInvalidQuantity: u64 = 11;
-const EInvalidName: u64 = 12;
-
-// 状态错误：20-29
-const EAlreadyListed: u64 = 20;
-const ENotListed: u64 = 21;
-const EAlreadySold: u64 = 22;
-
-// 余额错误：30-39
-const EInsufficientBalance: u64 = 30;
-const EInsufficientPayment: u64 = 31;
-
-// 版本/系统错误：100+
-const EInvalidPackageVersion: u64 = 100;
-const EDeprecated: u64 = 101;
+// 权限类
+#[error]
+const ENotOwner: vector<u8> = b"not owner";
+#[error]
+const ENotAdmin: vector<u8> = b"not admin";
+#[error]
+const ENotApproved: vector<u8> = b"not approved";
+// 输入校验类
+#[error]
+const EInvalidPrice: vector<u8> = b"invalid price";
+#[error]
+const EInvalidQuantity: vector<u8> = b"invalid quantity";
+#[error]
+const EInvalidName: vector<u8> = b"invalid name";
+// 状态类
+#[error]
+const EAlreadyListed: vector<u8> = b"already listed";
+#[error]
+const ENotListed: vector<u8> = b"not listed";
+#[error]
+const EAlreadySold: vector<u8> = b"already sold";
+// 余额 / 支付类
+#[error]
+const EInsufficientBalance: vector<u8> = b"insufficient balance";
+#[error]
+const EInsufficientPayment: vector<u8> = b"insufficient payment";
+// 版本 / 弃用类
+#[error]
+const EInvalidPackageVersion: vector<u8> = b"invalid package version";
+#[error]
+const EDeprecated: vector<u8> = b"deprecated";
 ```
 
-### 前端错误码映射
+### 前端与链下展示
 
-```typescript
-const ERROR_MESSAGES: Record<number, string> = {
-  0: '您没有权限执行此操作',
-  1: '需要管理员权限',
-  10: '价格无效，请输入正数',
-  11: '数量无效',
-  20: '该物品已上架',
-  21: '该物品未上架',
-  30: '余额不足',
-  100: '合约版本不兼容，请刷新页面',
-};
-
-function getErrorMessage(abortCode: number): string {
-  return ERROR_MESSAGES[abortCode] ?? `未知错误 (代码: ${abortCode})`;
-}
-```
+Clever Errors 在 RPC / GraphQL / 钱包中通常会带上**模块位置、常量名与 UTF-8 消息**。前端优先根据**常量名或消息子串**映射到本地化文案；**仅当对接旧合约**仍返回纯 `u64` 中止码时，才需要维护 `abortCode → 文案` 的数值映射表。
 
 ## 高级模式
 
@@ -201,10 +199,12 @@ function getErrorMessage(abortCode: number): string {
 当需要区分同一模块中不同位置的相同类型错误时：
 
 ```move
-const ETransferFailed_SenderCheck: u64 = 40;
-const ETransferFailed_ReceiverCheck: u64 = 41;
-const ETransferFailed_AmountCheck: u64 = 42;
-
+#[error]
+const ETransferFailed_SenderCheck: vector<u8> = b"transfer failed sender check";
+#[error]
+const ETransferFailed_ReceiverCheck: vector<u8> = b"transfer failed receiver check";
+#[error]
+const ETransferFailed_AmountCheck: vector<u8> = b"transfer failed amount check";
 public fun transfer(
     from: &mut Account,
     to: &mut Account,
@@ -239,7 +239,7 @@ public fun try_equip_weapon(
 
 ## 测试错误处理
 
-对 **`#[error]`** 常量，测试中优先使用 **`#[test, expected_failure]`**（省略 `abort_code`），避免 clever 编码随源码行变化导致脆弱测试。仅当错误为**稳定 `u64` 常量**时，可使用 `expected_failure(abort_code = E...)`。
+对 **`#[error]`** 常量，测试中应使用 **`#[test, expected_failure]`** 且**省略** `abort_code`，避免 clever 编码随源码行变化导致脆弱测试。
 
 ```move
 #[test, expected_failure]
@@ -259,10 +259,10 @@ fun error_returns_correct_code() {
 
 ## 小结
 
-- 遵循三条核心规则：处理所有场景、使用不同错误码、返回 bool 而非 assert
-- 错误常量使用 `EPascalCase` 命名约定
-- 按功能分组分配错误码，便于定位和维护
-- 在前端维护错误码到用户友好消息的映射
+- 遵循三条核心规则：处理所有场景、为不同失败场景使用**不同**的 `#[error]` 常量、返回 bool 而非 assert
+- 错误常量使用 `EPascalCase` 命名约定，并以 `#[error]` + `vector<u8>` 提供可读消息
+- 按功能域分组定义错误常量，便于定位和维护
+- 前端优先消费 Clever Error 的**常量名 / 消息**；纯 `u64` 码表仅用于旧合约兼容
 - 提供 `is_*` 检查函数让调用者在中止前验证条件
 - 对非关键操作考虑优雅降级（返回结果而非中止）
-- 用 `expected_failure` 覆盖错误路径：优先无 `abort_code`（配合 `#[error]`）；稳定 `u64` 码可填 `abort_code`
+- 用 `expected_failure` 覆盖错误路径：**不写** `abort_code`（配合 `#[error]`）

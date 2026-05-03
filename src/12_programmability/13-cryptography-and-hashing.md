@@ -87,8 +87,8 @@ module examples::commit_reveal;
 
 use std::hash;
 
-const EIncorrectData: u64 = 0;
-
+#[error]
+const EIncorrectData: vector<u8> = b"incorrect data";
 public struct Commitment has key {
     id: UID,
     hash: vector<u8>,
@@ -120,8 +120,8 @@ module examples::salted_commit;
 
 use std::hash;
 
-const EIncorrectData: u64 = 0;
-
+#[error]
+const EIncorrectData: vector<u8> = b"incorrect data";
 public struct SaltedCommitment has key {
     id: UID,
     hash: vector<u8>,
@@ -234,8 +234,8 @@ module examples::auth;
 
 use sui::ed25519;
 
-const EInvalidAuth: u64 = 0;
-
+#[error]
+const EInvalidAuth: vector<u8> = b"invalid auth";
 public struct AuthConfig has key {
     id: UID,
     authorized_signer: vector<u8>,
@@ -277,8 +277,8 @@ module examples::content_registry;
 use std::hash;
 use sui::table::{Self, Table};
 
-const EAlreadyRegistered: u64 = 0;
-
+#[error]
+const EAlreadyRegistered: vector<u8> = b"already registered";
 public struct Registry has key {
     id: UID,
     entries: Table<vector<u8>, address>,

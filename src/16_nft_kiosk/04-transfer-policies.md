@@ -53,6 +53,11 @@ use sui::transfer_policy::{Self as policy, TransferPolicy, TransferPolicyCap, Tr
 
 const MAX_BP: u16 = 10_000;
 
+#[error]
+const EInvalidRoyaltyBp: vector<u8> = b"royalty: basis points too high";
+#[error]
+const EInsufficientRoyaltyPayment: vector<u8> = b"royalty: insufficient payment";
+
 public struct Rule has drop {}
 public struct Config has store, drop { amount_bp: u16 }
 
@@ -61,7 +66,7 @@ public fun add<T: key + store>(
     cap: &TransferPolicyCap<T>,
     amount_bp: u16,
 ) {
-    assert!(amount_bp <= MAX_BP, 0);
+    assert!(amount_bp <= MAX_BP, EInvalidRoyaltyBp);
     policy::add_rule(Rule {}, policy, cap, Config { amount_bp })
 }
 
@@ -74,7 +79,7 @@ public fun pay<T: key + store>(
     let paid = policy::paid(request);
     let config = policy::get_rule(Rule {}, policy);
     let amount = ((paid as u128) * (config.amount_bp as u128) / (MAX_BP as u128)) as u64;
-    assert!(coin::value(payment) >= amount, 1);
+    assert!(coin::value(payment) >= amount, EInsufficientRoyaltyPayment);
     let fee = coin::split(payment, amount, ctx);
     policy::add_to_balance(Rule {}, policy, fee);
     policy::add_receipt(Rule {}, request)

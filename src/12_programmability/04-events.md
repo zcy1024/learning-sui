@@ -257,9 +257,10 @@ public struct ProposalFinalized has copy, drop {
 
 // ========== 常量 ==========
 
-const EAlreadyFinalized: u64 = 0;
-const EVotingEnded: u64 = 1;
-
+#[error]
+const EAlreadyFinalized: vector<u8> = b"already finalized";
+#[error]
+const EVotingEnded: vector<u8> = b"voting ended";
 // ========== 数据结构 ==========
 
 public struct Proposal has key {
