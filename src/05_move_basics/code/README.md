@@ -44,4 +44,4 @@ for d in src/05_move_basics/code/[0-2][0-9]-*/; do
 done
 ```
 
-第六、八章（语言篇）与 **`../08_move_advanced/`** 的示例分别在对应章目录；**`../11_move_macros/`** 为 **第十一章** 宏函数（整章示例 `macro_lab/`，全书目录中位于第十章之后）。见各章 `00-index.md` 与 `code/README.md`。
+第六、八章（语言篇）与 **`../07_move_advanced/`** 的示例分别在对应章目录；**`../10_move_macros/`** 为 **第十章** 宏函数（整章示例 `macro_lab/`，全书目录中位于第九章之后）。见各章 `00-index.md` 与 `code/README.md`。

@@ -22,11 +22,11 @@
 典型用途包括：保存地址与助记词（或使用 zkLogin 等低门槛登录）、切换网络、连接 dApp、签名交易与消息。实现上仍遵循 **Wallet Standard**，因此许多教程与前端（如 `@mysten/dapp-kit-react`）在连接列表中会显示 **Slush** 或与商店上架名称一致的条目。
 
 - **官方入口**：[slush.app](https://slush.app/) · 使用说明：[Slush user guides](https://slush.app/guides/) · 产品总览：[Mysten · Products](https://www.mystenlabs.com/products)  
-- **与本书其他章节的关系**：用 **CLI 管理本地地址与领测试币**见 [第二章 · 钱包与测试币](../02_getting_started/03-wallet-and-faucet.md)；在 **网页里连接钱包、调用合约**见第十七章、第十八章与 dApp Kit 相关小节。文档与商店展示名称若仍有「Sui Wallet」等历史字样，以 **Slush** 官方页面为准。
+- **与本书其他章节的关系**：用 **CLI 管理本地地址与领测试币**见 [第二章 · 钱包与测试币](../02_getting_started/03-wallet-and-faucet.md)；在 **网页里连接钱包、调用合约**见[第十六章](../16_client/00-index.md)、[第十七章](../17_fullstack_dapp/00-index.md)与 dApp Kit 相关小节。文档与商店展示名称若仍有「Sui Wallet」等历史字样，以 **Slush** 官方页面为准。
 
 除官方钱包外，生态中还有其它兼容 Wallet Standard 的实现；选型时请关注**是否开源审计、支持网络、是否与你的 dApp 依赖的 API 版本一致**。
 
 ## 开发者入口
 
 - 官方文档：<https://docs.sui.io/>
-- 主网 / 测试网与部署、RPC 等进阶说明见本书后续章节（如第二章网络配置、第十七章客户端等）。
+- 主网 / 测试网与部署、RPC 等进阶说明见本书后续章节（如第二章网络配置、[第十六章 · 客户端](../16_client/00-index.md)等）。

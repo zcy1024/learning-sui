@@ -10,7 +10,13 @@ while IFS= read -r toml; do
   else
     echo "==> sui move build: $dir"
   fi
-  if (cd "$dir" && sui move build); then
+  # GitHub workflow installs `sui@testnet`; default build env matches testnet.  Without `-e
+  # testnet`, some Move.lock files that only pin mainnet can fail dependency resolution.
+  sui_args=()
+  if [[ -n "${GITHUB_ACTIONS:-}" ]]; then
+    sui_args+=(-e testnet)
+  fi
+  if (cd "$dir" && sui move build "${sui_args[@]}"); then
     :
   else
     failed=1

@@ -46,7 +46,7 @@ learning-sui/
 ├── src/
 │   ├── SUMMARY.md     # 目录（侧边栏结构）
 │   ├── 01-introduction.md  # 全书导读（阅读方式与各章概述）
-│   ├── 01_introduction/ … 23_pas/  # 章文件夹名与书中篇目对齐（如宏函数为 11_move_macros/、对象模型为 09_object_model/）
+│   ├── 01_introduction/ … 22_pas/  # 章文件夹名与书中篇目对齐（如宏函数为 10_move_macros/、对象模型为 08_object_model/）
 │   │   └── code/       # 部分章含可运行 Move 示例（见各章 code/README.md）
 │   └── …
 ├── book/              # 构建输出（已加入 .gitignore）
