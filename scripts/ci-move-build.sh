@@ -2,6 +2,14 @@
 # 在仓库内对每个含 Move.toml 的示例包执行 sui move build（需已安装 sui CLI）。
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+# 较新的 Sui CLI 在缺少 client 配置时会对若干子命令（含 move build）交互询问；
+# CI 与无配置环境需先非交互生成默认 ~/.sui/sui_config/client.yaml（见官方文档 sui client -y）。
+if [[ ! -f "${HOME}/.sui/sui_config/client.yaml" ]]; then
+  echo "==> no Sui client config; running: sui client -y"
+  sui client -y
+fi
+
 failed=0
 while IFS= read -r toml; do
   dir="$(dirname "$toml")"
