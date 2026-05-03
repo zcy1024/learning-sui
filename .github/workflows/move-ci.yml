@@ -1,0 +1,27 @@
+# 校验各章 code/ 下 Move 包可编译（与 mdBook 构建独立，需网络拉取 Framework）
+name: Move build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  move-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Suiup
+        run: curl -sSfL https://raw.githubusercontent.com/MystenLabs/suiup/main/install.sh | sh
+
+      - name: Add suiup to PATH
+        run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Install Sui CLI (testnet)
+        run: suiup install sui@testnet -y
+
+      - name: Build all Move example packages
+        run: bash scripts/ci-move-build.sh
