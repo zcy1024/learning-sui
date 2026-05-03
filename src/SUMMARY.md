@@ -1,11 +1,5 @@
 # Move on Sui: 从零到精通
 
-[导读 — 本书结构与阅读方式](01-introduction.md)
-
-- [章号说明：为何没有「第七章」、宏函数在第几章](01-introduction.md#章号与目录侧栏)
-
----
-
 # 入门篇
 
 - [第一章 · 走进 Sui 与 Move](01_introduction/00-index.md)
