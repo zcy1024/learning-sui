@@ -1,0 +1,6 @@
+[package]
+name = "todo_list"
+edition = "2024"
+
+[addresses]
+todo_list = "0x0"

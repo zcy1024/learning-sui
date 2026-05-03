@@ -7,7 +7,7 @@
 | 节 | 主题 | 你将学到 |
 |---|------|---------|
 | 3.1 | Hello World | 创建项目、`Hello` 对象、`entry` 铸造并转移给自己、编译与测试 |
-| 3.2 | Hello Sui | 将合约部署到 devnet、理解发布输出 |
+| 3.2 | Hello Sui | 配套 `code/todo_list/`：TodoList 合约、`build`/`test`、将包发布到 devnet/testnet、解读发布输出 |
 | 3.3 | 与合约交互 | 用 CLI 调用合约函数、查看对象和交易 |
 
 ## 学习目标

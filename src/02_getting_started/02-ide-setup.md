@@ -1,6 +1,6 @@
 # IDE 开发环境配置
 
-一个良好的 IDE 配置可以显著提升 Move 开发效率。通过语言服务器的支持，你可以获得代码补全、实时错误检查、跳转定义等功能，避免许多低级错误。本节将详细介绍如何配置主流编辑器来支持 Move 开发。
+一个良好的 IDE 配置可以显著提升 Move 开发效率。通过语言服务器的支持，你可以获得代码补全、实时错误检查、跳转定义等功能，避免许多低级错误。
 
 ## Visual Studio Code（推荐）
 
@@ -83,6 +83,18 @@ VSCode 是目前 Move 开发体验最好的编辑器，拥有最完善的插件�
 
 其中 `move.server.path` 仅在扩展找不到 `move-analyzer` 时需要填写；`move.sui.path` 仅在 `sui` 不在默认 `PATH` 上时需要填写。
 
+## Zed（第二推荐）
+
+在本书的推荐顺序中，**Zed** 排在 VS Code 之后：界面简洁、启动与滚动通常很快，适合作为**第二套日常编辑环境**（与 VS Code 并行安装即可）。Move 支持通过 Zed 的扩展市场提供，具体扩展名称与发布者可能随版本更新，请以 Zed 内展示为准；一般应选择与 **Sui / Mysten** 工具链配套的 Move 语言扩展。
+
+### 安装步骤（概览）
+
+1. 打开 Zed
+2. 打开命令面板：`Cmd+Shift+P`（macOS）或 `Ctrl+Shift+P`（Windows/Linux）
+3. 搜索并进入扩展（Extensions）相关入口，在市场中搜索 **Move**，安装官方文档或 Mysten 推荐的 Move 支持
+
+> **与语言服务器的关系**：Zed 侧 Move 体验同样依赖本机安装的 **`move-analyzer`**（以及需要时正确配置的 `sui`）。安装与排障见下文[配置 Move Analyzer](#配置-move-analyzer)；若在 Zed 中需为 LSP 单独指定可执行文件路径，应指向与 VS Code 相同的 `move-analyzer` 二进制（`which move-analyzer`）。
+
 ## 其他编辑器
 
 ### IntelliJ IDEA
@@ -101,42 +113,6 @@ JetBrains 系列 IDE 用户可以使用 Move Language Plugin：
 - Move.toml 文件支持
 
 > **提示**：IntelliJ 的 Move 插件功能不如 VSCode 扩展完善，但对于习惯 JetBrains 生态的开发者来说仍是不错的选择。
-
-### Emacs
-
-Emacs 用户可以使用 `move-mode`：
-
-```bash
-# 通过 MELPA 安装
-M-x package-install RET move-mode RET
-```
-
-或在 Emacs 配置文件中添加：
-
-```elisp
-(use-package move-mode
-  :ensure t
-  :mode "\\.move\\'"
-  :hook (move-mode . (lambda ()
-                       (setq tab-width 4)
-                       (setq indent-tabs-mode nil))))
-```
-
-### Zed
-
-Zed 编辑器通过其扩展系统提供 Move 支持：
-
-1. 打开 Zed
-2. 通过命令面板 `Cmd+Shift+P` 搜索 "Extensions"
-3. 搜索并安装 Move 语言扩展
-
-### GitHub Codespaces
-
-如果你不想配置本地环境，GitHub Codespaces 是一个很好的选择：
-
-1. 在 Sui 相关仓库中点击 "Code → Codespaces → New codespace"
-2. Codespaces 会自动配置开发环境
-3. 在线上 VSCode 中安装上述推荐的 Move 扩展
 
 ## 配置 Move Analyzer
 
@@ -230,4 +206,4 @@ sui move test --coverage
 
 ## 小结
 
-本节介绍了多种编辑器的 Move 开发环境配置，其中 VSCode + Mysten Labs 官方 Move 扩展是目前最推荐的方案。关键要确保以下三个功能正常工作：**实时错误检查**（通过独立可执行文件 **`move-analyzer`**，推荐 **`suiup install move-analyzer`**）、**代码格式化**（通过 Move Formatter）和**语法高亮**（通过 Move Syntax）；并分清 **`move.server.path`（move-analyzer）** 与 **`move.sui.path`（sui CLI）**。配合集成终端和自动化任务，你将拥有一个流畅的 Move 开发体验。下一节我们将配置钱包并获取测试币，为部署合约做准备。
+本节按推荐顺序介绍了 **VS Code**（首选，Mysten 官方扩展 + Formatter + Syntax）、**Zed**（第二推荐，扩展市场安装 Move 支持，同样依赖本机 **`move-analyzer`**），以及 **IntelliJ** 等备选。关键要确保：**实时错误检查**（独立可执行文件 **`move-analyzer`**，推荐 **`suiup install move-analyzer`**）、在 VS Code 中可选的 **代码格式化**（Move Formatter）与 **语法高亮**（Move Syntax）；并分清 **`move.server.path`（move-analyzer）** 与 **`move.sui.path`（sui CLI）**。配合集成终端和自动化任务，你将拥有一个流畅的 Move 开发体验。下一节我们将配置钱包并获取测试币，为部署合约做准备。

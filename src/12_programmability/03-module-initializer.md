@@ -4,8 +4,9 @@
 
 本节对应 [§12.1](01-sui-framework.md) 中 **`sui::package`** 与发布流程：`init` 在**包首次发布**时执行**一次**，升级**不会**再次执行。常与 **OTW**、`package::claim`、`transfer` 配合，是模块「冷启动」的正规入口。
 
+- **概念先行**（发布与 `init` 在生命周期中的位置）：[第四章 · 包 — 首次发布与模块初始化器（init）](../04_concepts/01-packages.md#pkg-init)  
 - **前置**：[§12.2](02-transaction-context.md)（`ctx` 参数规则）、[§12.1](01-sui-framework.md)（`package` / `types`）  
-- **后续**：[§12.4](04-events.md)（可在 `init` 里发事件）、[第十二章 · OTW](../13_patterns/03-one-time-witness.md)（模式详解）  
+- **后续**：[§12.4](04-events.md)（可在 `init` 里发事件）、[第十三章 · OTW](../13_patterns/03-one-time-witness.md)（模式详解）  
 
 ---
 

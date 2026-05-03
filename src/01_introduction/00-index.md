@@ -8,7 +8,7 @@
 |---|------|---------|
 | 1.1 | 区块链与智能合约 | 区块链基础概念、共识机制、智能合约的作用 |
 | 1.2 | Sui 架构概览 | 对象中心设计、并行执行、验证者与共享状态排序（不展开算法名） |
-| 1.3 | Sui 生态全景 | Walrus、DeepBook、zkLogin、Kiosk 等生态组件 |
+| 1.3 | Sui 生态全景 | 常用浏览器（SuiVision、SuiScan 等）、官方钱包 **Slush**（原 Sui Wallet / Stashed 合并更名）；Walrus、DeepBook、zkLogin、Kiosk 等生态组件 |
 | 1.4 | Move 语言的诞生与演进 | Move 的设计目标、与 Sui 的关系、Move 2024 概览 |
 
 ## 学习目标

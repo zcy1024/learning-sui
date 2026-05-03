@@ -24,27 +24,19 @@ sui client faucet
 
 ## 编写 TodoList 合约
 
-创建一个新项目：
-
-```bash
-sui move new todo_list
-cd todo_list
-```
-
-编辑 `sources/todo_list.move`：
-
 ```move
+/// 与本书 3.2「Hello Sui」对应：可上链的待办列表对象，用于练习 `sui move build` / `publish`。
 module todo_list::todo_list;
 
 use std::string::String;
 
-/// 一个简单的待办事项列表
+/// 一个简单的待办事项列表（链上对象）。
 public struct TodoList has key, store {
-    id: UID,
+    id: object::UID,
     items: vector<String>,
 }
 
-/// 创建一个新的待办事项列表
+/// 创建一个新的待办事项列表。
 public fun new(ctx: &mut TxContext): TodoList {
     TodoList {
         id: object::new(ctx),
@@ -52,19 +44,19 @@ public fun new(ctx: &mut TxContext): TodoList {
     }
 }
 
-/// 添加一个待办事项
+/// 添加一个待办事项。
 public fun add(list: &mut TodoList, item: String) {
-    list.items.push_back(item);
+    vector::push_back(&mut list.items, item);
 }
 
-/// 删除指定位置的待办事项，返回被删除的内容
+/// 删除指定位置的待办事项，返回被删除的内容。
 public fun remove(list: &mut TodoList, index: u64): String {
-    list.items.remove(index)
+    vector::remove(&mut list.items, index)
 }
 
-/// 获取待办事项数量
+/// 获取待办事项数量。
 public fun length(list: &TodoList): u64 {
-    list.items.length()
+    vector::length(&list.items)
 }
 ```
 
@@ -74,7 +66,7 @@ public fun length(list: &TodoList): u64 {
 
 ```move
 public struct TodoList has key, store {
-    id: UID,
+    id: object::UID,
     items: vector<String>,
 }
 ```
@@ -99,23 +91,25 @@ public fun new(ctx: &mut TxContext): TodoList {
 - `object::new(ctx)`：创建新的 `UID`
 - `vector[]`：Move 2024 的空向量字面量语法
 
-### 构建项目
+### 构建与测试
+
+在 **`todo_list` 包根目录**（本书为 `src/03_first_move/code/todo_list/`）执行：
 
 ```bash
 sui move build
+sui move test
 ```
 
-确保编译通过没有错误。
+确保编译与测试通过、无错误。
 
 ## 发布合约
 
-使用以下命令将合约发布到链上：
+使用以下命令将合约发布到链上（**须在包根目录**，且 `sui client` 已切到 devnet/testnet 并有测试币）：
 
 ```bash
+cd src/03_first_move/code/todo_list   # 路径以你克隆仓库的位置为准
 sui client publish
 ```
-
-CLI 会自动估算 Gas，一般无需指定 `--gas-budget`；仅在需要覆盖默认值时再添加该参数。
 
 ## 解读发布交易输出
 
@@ -205,21 +199,6 @@ JSON 输出更适合脚本自动化处理，你可以用 `jq` 提取关键信息
 sui client publish --json | jq -r '.objectChanges[] | select(.type == "published") | .packageId'
 ```
 
-## 理解 UpgradeCap
-
-`UpgradeCap`（升级能力）是 Sui 包管理的核心机制：
-
-- 每次发布包时自动生成并转移给发布者
-- 持有 `UpgradeCap` 的人可以升级对应的包
-- 如果你销毁或转移 `UpgradeCap`，就放弃了升级权限
-- 这是 Sui 上实现**不可变性保证**的一种方式
-
-```bash
-# 查看 UpgradeCap 对象
-sui client object <upgrade-cap-id>
-```
-
-> **安全提示**：如果你想让包变成不可变的（无法升级），可以在发布后销毁 `UpgradeCap`。但请谨慎操作，一旦销毁便无法撤回。
 
 ## 在区块浏览器上查看
 
@@ -238,27 +217,23 @@ sui client object <upgrade-cap-id>
 ## 完整发布流程总结
 
 ```bash
-# 1. 创建项目
-sui move new todo_list && cd todo_list
+# 1. 进入本书配套包（或自建 todo_list 并对齐源码）
+cd src/03_first_move/code/todo_list
 
-# 2. 编写合约代码（编辑 sources/todo_list.move）
-
-# 3. 构建
+# 2. 构建与测试
 sui move build
-
-# 4. 测试
 sui move test
 
-# 5. 确保有测试币
+# 3. 确保有测试币
 sui client faucet
 
-# 6. 发布
+# 4. 发布
 sui client publish
 
-# 7. 记录 PackageID
+# 5. 记录 PackageID
 export PACKAGE_ID=0x<your-package-id>
 ```
 
 ## 小结
 
-本节我们完成了一个 TodoList 合约的编写和链上发布。关键步骤包括：使用 `sui client publish` 发布包、理解交易输出中的 Digest、Effects、Created Objects 等信息。发布后我们获得了两个重要的对象——**Package**（包含合约代码）和 **UpgradeCap**（升级能力）。记录好 PackageID，下一节我们将学习如何通过 CLI 与已发布的合约进行交互。
+本节我们完成了一个 TodoList 合约的编写和链上发布。关键步骤包括：使用 `sui client publish` 发布包、理解交易输出中的 Digest、Effects、Created Objects 等信息。发布后我们获得了两个重要对象——**Package**（包含合约代码）与 **UpgradeCap**（升级能力）。本节的 `todo_list` 未使用模块 **`init`**；若你想了解「首次发布时自动跑一次」的初始化机制，可读 [第四章 · 包 — 首次发布与 init](../04_concepts/01-packages.md#pkg-init)，系统讲解见 [第十二章 §12.3](../12_programmability/03-module-initializer.md)。记录好 PackageID，下一节我们将学习如何通过 CLI 与已发布的合约进行交互。

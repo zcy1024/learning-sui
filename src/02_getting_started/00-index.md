@@ -9,7 +9,7 @@
 | 节 | 主题 | 你将学到 |
 |---|------|---------|
 | 2.1 | 安装 Sui CLI 与 Suiup | 用 Suiup 安装/切换 `sui`；备选 Homebrew、预编译包、源码编译；版本与诊断 |
-| 2.2 | IDE 与编辑器配置 | VS Code 插件、Move Analyzer、代码补全 |
+| 2.2 | IDE 与编辑器配置 | VS Code（首选）、Zed（第二推荐）、Move Analyzer、代码补全；IntelliJ 简述 |
 | 2.3 | 创建钱包与获取测试币 | CLI 钱包管理、网络切换、水龙头领币 |
 
 ## 学习目标
